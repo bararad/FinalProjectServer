@@ -24,6 +24,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-//lalalalalala
-//escort
