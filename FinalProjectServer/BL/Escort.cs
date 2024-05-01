@@ -1,6 +1,5 @@
 ﻿namespace final_proj.BL
 {
-    //escort
     public class Escort
     {
         private string esc_id;
