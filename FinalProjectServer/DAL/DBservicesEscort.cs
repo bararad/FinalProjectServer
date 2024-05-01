@@ -58,7 +58,7 @@ public class DBservicesEscort
         {
             if (con != null)
             {
-                con.Close();//comment
+                con.Close();
             }
         }
     }
