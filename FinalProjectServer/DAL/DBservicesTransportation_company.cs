@@ -39,7 +39,7 @@ public class DBservicesTransportation_company
     }
 
     //--------------------------------------------------------------------------------------------------
-    // This method Inserts a EducationalInstitution to the EducationalInstitution table 
+    // This method Inserts a TransportationCompany to the TransportationCompany table 
     //--------------------------------------------------------------------------------------------------
     public int InsertTransportationCompany(TransportationCompany tc)
     {
@@ -80,7 +80,7 @@ public class DBservicesTransportation_company
         }
 
     }
-    // This method get a EducationalInstitution from the EducationalInstitution table
+    // This method get a TransportationCompany from the TransportationCompany table
 
     public List<TransportationCompany> GetTransportationCompanies()
     {
