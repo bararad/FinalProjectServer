@@ -48,11 +48,7 @@
             return dbs.GetStudent();
         }
 
-        public int Delete(string dd)
-        {
-            DBservicesStudent dbs = new DBservicesStudent();
-            return dbs.DeleteStudent(dd);
-        }
+       
 
         public int Update()
         {
