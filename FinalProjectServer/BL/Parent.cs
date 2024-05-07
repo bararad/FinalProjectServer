@@ -27,23 +27,23 @@
         public string Stu_parentStreet { get => stu_parentStreet; set => stu_parentStreet = value; }
         public int Stu_parentHomeNum { get => stu_parentHomeNum; set => stu_parentHomeNum = value; }
         public string Stu_id { get => stu_id; set => stu_id = value; }
-    }
 
-    public int Insert()
-    {
-        DBservicesStudent dbs = new DBservicesStudent();
-        return dbs.InsertParent(this);
-    }
+        public int Insert()
+        {
+            DBservicesParent dbs = new DBservicesParent();
+            return dbs.InsertParent(this);
+        }
 
-    public static List<Student> Read()
-    {
-        DBservicesStudent dbs = new DBservicesStudent();
-        return dbs.GetParent();
-    }
+        public static List<Parent> Read()
+        {
+            DBservicesParent dbs = new DBservicesParent();
+            return dbs.GetParent();
+        }
 
-    public int Update()
-    {
-        DBservicesStudent dbs = new DBservicesStudent();
-        return dbs.UpdateParent(this);
+        public int Update()
+        {
+            DBservicesParent dbs = new DBservicesParent();
+            return dbs.UpdateParent(this);
+        }
     }
 }
