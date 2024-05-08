@@ -9,6 +9,8 @@
         private int stu_parentHomeNum;
         private string stu_id;
 
+
+        public Parent() { }
         public Parent(string stu_parentName, string stu_parentCell, string stu_parentCity, string stu_parentStreet, int stu_parentHomeNum, string stu_id)
         {
             Stu_parentName = stu_parentName;
@@ -19,7 +21,7 @@
             Stu_id = stu_id;
         }
 
-        public Parent() { }
+
 
         public string Stu_parentName { get => stu_parentName; set => stu_parentName = value; }
         public string Stu_parentCell { get => stu_parentCell; set => stu_parentCell = value; }
