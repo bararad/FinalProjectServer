@@ -1,4 +1,5 @@
 ﻿namespace final_proj.BL
+
 {
     public class Parent
     {
