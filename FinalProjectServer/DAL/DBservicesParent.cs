@@ -90,8 +90,7 @@ public class DBservicesParent
                 parent.Stu_parentCell = dataReader["cellphone"].ToString();
                 parent.Stu_parentCity = dataReader["city"].ToString();
                 parent.Stu_parentStreet = dataReader["street"].ToString();
-                parent.Stu_parentHomeNum = Convert.ToInt32(dataReader["house_number"]);
-                parent.Stu_id = dataReader["street"].ToString();
+                parent.Stu_parentHomeNum = Convert.ToInt32(dataReader["house_number"]);               
 
                 parentList.Add(parent);
             }
