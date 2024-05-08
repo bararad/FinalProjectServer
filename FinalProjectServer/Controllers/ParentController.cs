@@ -7,7 +7,7 @@ namespace final_proj.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PartnerController : ControllerBase
+    public class ParentController : ControllerBase
     {
         // GET: api/<PartnerController>
         [HttpGet]
@@ -25,14 +25,16 @@ namespace final_proj.Controllers
 
         // POST api/<PartnerController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public int Post([FromBody] Parent parent)
         {
+            return parent.Insert();
         }
 
         // PUT api/<PartnerController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public int Put([FromBody] Parent parent)
         {
+            return parent.Update();
         }
 
         // DELETE api/<PartnerController>/5
