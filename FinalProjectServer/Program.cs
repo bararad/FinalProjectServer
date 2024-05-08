@@ -23,4 +23,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+//inside Register we will have arrow function
+//When the app runs..
+//app.Lifetime.ApplicationStarted.Register();
+
+
 app.Run();

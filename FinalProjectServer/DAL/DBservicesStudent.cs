@@ -94,13 +94,16 @@ public class DBservicesStudent
                 student.Stu_fullName = dataReader["stu_fullName"].ToString();
                 student.Stu_id = dataReader["stu_id"].ToString();
                 student.Stu_dateofbirth = Convert.ToDateTime(dataReader["stu_dateofbirth"]);
-                student.Stu_grade = dataReader["stu_grade"].ToString(); 
-                student.Stu_school = dataReader["stu_school"].ToString(); 
+                student.Stu_grade = dataReader["stu_grade"].ToString();
+                student.Stu_school = dataReader["stu_school"].ToString();
                 student.Stu_dateOfPlacement = Convert.ToDateTime(dataReader["Stu_dateOfPlacement"]);
-                student.Stu_disability =dataReader["stu_disability"].ToString();
+                student.Stu_disability = dataReader["stu_disability"].ToString();
                 student.Stu_comments = dataReader["stu_comments"].ToString();
                 studentList.Add(student);
             }
+
+
+
             return studentList;
         }
         catch (Exception ex)
@@ -115,6 +118,56 @@ public class DBservicesStudent
             }
         }
     }
+
+    public List<Parent> FindStudentParents(string stu_id)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        List<Parent> parents = new List<Parent>();
+
+        try
+        {
+            con = connect("myProjDB");
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        try
+        {
+
+            cmd = FindStudentParentProc("FindMyParents", con, stu_id);
+
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Parent p1 = new Parent();
+                p1.Stu_parentCell = dataReader["cellphone"].ToString();
+                p1.Stu_parentName = dataReader["fullname"].ToString();
+                p1.Stu_parentCity = dataReader["city"].ToString();
+                p1.Stu_parentStreet = dataReader["street"].ToString();
+                p1.Stu_parentHomeNum = Convert.ToInt32(dataReader["house_number"]);
+                parents.Add(p1);
+            }
+
+            return parents;
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
+
+
     public int UpdateStudent(Student student)
     {
         SqlConnection con;
@@ -182,6 +235,18 @@ public class DBservicesStudent
         return cmd;
     }
 
+    private SqlCommand FindStudentParentProc(string spName, SqlConnection con, string id)
+    {
+        SqlCommand cmd = new SqlCommand();
+        cmd.Connection = con;
+        cmd.CommandText = spName;
+        cmd.CommandTimeout = 10;
+        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        cmd.Parameters.AddWithValue("@stu_id", id);
+
+        return cmd;
+    }
+
     private SqlCommand CreateStudentInsertCommandWithStoredProcedure(string spName, SqlConnection con, Student student)
     {
         SqlCommand cmd = new SqlCommand();
@@ -199,5 +264,6 @@ public class DBservicesStudent
         cmd.Parameters.AddWithValue("@stu_comments", student.Stu_comments);
         return cmd;
     }
+
 
 }

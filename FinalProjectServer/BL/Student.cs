@@ -10,6 +10,7 @@
         private DateTime stu_dateOfPlacement;
         private string stu_disability;
         private string stu_comments;
+        private List<Parent> parents;
 
         public Student() 
         {
@@ -24,6 +25,7 @@
             Stu_dateOfPlacement = stu_dateOfPlacement;
             Stu_disability = stu_disability;
             Stu_comments = stu_comments;
+            Parents = new List<Parent>();
         }
 
         public string Stu_fullName { get => stu_fullName; set => stu_fullName = value; }
@@ -34,7 +36,7 @@
         public DateTime Stu_dateOfPlacement { get => stu_dateOfPlacement; set => stu_dateOfPlacement = value; }
         public string Stu_disability { get => stu_disability; set => stu_disability = value; }
         public string Stu_comments { get => stu_comments; set => stu_comments = value; }
-
+        public List<Parent> Parents { get => parents; set => parents = value; }
 
         public int Insert()
         {
@@ -45,15 +47,20 @@
         public static List<Student> Read()
         {
             DBservicesStudent dbs = new DBservicesStudent();
-            return dbs.GetStudent();
-        }
+            List<Student> students =  dbs.GetStudent();
 
-       
+            foreach (Student s in students) {
+                s.Parents = dbs.FindStudentParents(s.Stu_id);
+            }
+
+            return students;
+        }
 
         public int Update()
         {
             DBservicesStudent dbs = new DBservicesStudent();
             return dbs.UpdateStudent(this);
         }
+
     }
 }
