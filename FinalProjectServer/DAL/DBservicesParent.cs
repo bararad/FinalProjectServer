@@ -154,11 +154,11 @@ public class DBservicesParent
         cmd.CommandText = spName;
         cmd.CommandTimeout = 10;
         cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        cmd.Parameters.AddWithValue("@cellphone", parent.Stu_parentName);
-        cmd.Parameters.AddWithValue("@fullname", parent.Stu_parentCell);
-        cmd.Parameters.AddWithValue("@street", parent.Stu_parentCity);
-        cmd.Parameters.AddWithValue("@house_number", parent.Stu_parentStreet);
-        cmd.Parameters.AddWithValue("@city", parent.Stu_parentHomeNum);
+        cmd.Parameters.AddWithValue("@cellphone", parent.Stu_parentCell);
+        cmd.Parameters.AddWithValue("@fullname", parent.Stu_parentName);
+        cmd.Parameters.AddWithValue("@street", parent.Stu_parentStreet);
+        cmd.Parameters.AddWithValue("@house_number", parent.Stu_parentHomeNum);
+        cmd.Parameters.AddWithValue("@city", parent.Stu_parentCity);
         cmd.Parameters.AddWithValue("@stu_id", parent.Stu_id);
 
         return cmd;
@@ -186,11 +186,11 @@ public class DBservicesParent
         cmd.CommandText = spName;
         cmd.CommandTimeout = 10;
         cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        cmd.Parameters.AddWithValue("@cellphone", parent.Stu_parentName);
-        cmd.Parameters.AddWithValue("@fullname", parent.Stu_parentCell);
-        cmd.Parameters.AddWithValue("@street", parent.Stu_parentCity);
-        cmd.Parameters.AddWithValue("@house_number", parent.Stu_parentStreet);
-        cmd.Parameters.AddWithValue("@city", parent.Stu_parentHomeNum);
+        cmd.Parameters.AddWithValue("@cellphone", parent.Stu_parentCell);
+        cmd.Parameters.AddWithValue("@fullname", parent.Stu_parentName);
+        cmd.Parameters.AddWithValue("@street", parent.Stu_parentStreet);
+        cmd.Parameters.AddWithValue("@house_number", parent.Stu_parentHomeNum);
+        cmd.Parameters.AddWithValue("@city", parent.Stu_parentCity);
         return cmd;
     }
 

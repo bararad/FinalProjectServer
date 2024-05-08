@@ -31,7 +31,7 @@ namespace final_proj.Controllers
         }
 
         // PUT api/<PartnerController>/5
-        [HttpPut("{id}")]
+        [HttpPut()]
         public int Put([FromBody] Parent parent)
         {
             return parent.Update();
