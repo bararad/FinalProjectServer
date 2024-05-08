@@ -10,17 +10,11 @@ namespace final_proj.Controllers
     {
         // GET: api/<ExtendedStudentController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<ExtendedStudent> Get()
         {
-            return new string[] { "value1", "value2" };
+            return ExtendedStudent.Read();
         }
 
-        // GET api/<ExtendedStudentController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
         // POST api/<ExtendedStudentController>
         [HttpPost]
