@@ -64,7 +64,12 @@
         public int Update()
         {
             DBservicesStudent dbs = new DBservicesStudent();
-            return dbs.UpdateStudent(this);
+            int res = dbs.UpdateStudent(this);
+            foreach (Parent p in this.Parents)
+            {
+                res += p.Update();
+            }
+            return res;
         }
 
     }
