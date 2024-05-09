@@ -9,24 +9,13 @@ using final_proj;
 using final_proj.BL;
 using final_proj.Controllers;
 
-public class DBservicesParent
+public class DBservicesParent: GeneralDBservices
 {
-    public DBservicesParent()
+    public DBservicesParent():base()
     {
-        //
-        // TODO: Add constructor logic here
-        //
+       
     }
-    public SqlConnection connect(String conString)
-    {
-        // Read the connection string from the configuration file
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json").Build();
-        string cStr = configuration.GetConnectionString("myProjDB");
-        SqlConnection con = new SqlConnection(cStr);
-        con.Open();
-        return con;
-    }
+    
 
     public int InsertParent(Parent parent)
     {
@@ -77,7 +66,7 @@ public class DBservicesParent
             throw (ex);
         }
 
-        cmd = CreateCommandWithSPWithoutParametersPar("SPproj_GetParent", con);
+        cmd = CreateCommandWithSPWithoutParameters("SPproj_GetParent", con);
 
         try
         {
@@ -160,21 +149,6 @@ public class DBservicesParent
         cmd.Parameters.AddWithValue("@house_number", parent.Stu_parentHomeNum);
         cmd.Parameters.AddWithValue("@city", parent.Stu_parentCity);
         cmd.Parameters.AddWithValue("@stu_id", parent.Stu_id);
-
-        return cmd;
-    }
-    private SqlCommand CreateCommandWithSPWithoutParametersPar(String spName, SqlConnection con)
-    {
-
-        SqlCommand cmd = new SqlCommand(); // create the command object
-
-        cmd.Connection = con;              // assign the connection to the command object
-
-        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
-
-        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
-
-        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
 
         return cmd;
     }

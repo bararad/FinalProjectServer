@@ -9,30 +9,12 @@ using final_proj;
 using final_proj.BL;
 using final_proj.Controllers;
 
-public class DBservicesStudent
+public class DBservicesStudent: GeneralDBservices
 {
-    public DBservicesStudent()
+    public DBservicesStudent():base()
     {
-        //
-        // TODO: Add constructor logic here
-        //
+        
     }
-
-    //--------------------------------------------------------------------------------------------------
-    // This method creates a connection to the database according to the connectionString name in the web.config 
-    //--------------------------------------------------------------------------------------------------
-    public SqlConnection connect(String conString)
-    {
-
-        // read the connection string from the configuration file
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json").Build();
-        string cStr = configuration.GetConnectionString("myProjDB");
-        SqlConnection con = new SqlConnection(cStr);
-        con.Open();
-        return con;
-    }
-
 
     public int InsertStudent(Student student)
     {
@@ -82,7 +64,7 @@ public class DBservicesStudent
             throw (ex);
         }
 
-        cmd = CreateCommandWithSPWithoutParametersStu("SPproj_GetStudent", con);
+        cmd = CreateCommandWithSPWithoutParameters("SPproj_GetStudent", con);
 
         try
         {
@@ -201,22 +183,6 @@ public class DBservicesStudent
             }
         }
     }
-    private SqlCommand CreateCommandWithSPWithoutParametersStu(String spName, SqlConnection con)
-    {
-
-        SqlCommand cmd = new SqlCommand(); // create the command object
-
-        cmd.Connection = con;              // assign the connection to the command object
-
-        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
-
-        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
-
-        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
-
-        return cmd;
-    }
-
     private SqlCommand UpdateStudentCommandWithStoredProcedure(string spName, SqlConnection con, Student student)
     {
         SqlCommand cmd = new SqlCommand();

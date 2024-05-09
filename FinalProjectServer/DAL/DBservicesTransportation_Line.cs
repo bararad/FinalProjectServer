@@ -8,34 +8,15 @@ using System.Text;
 using final_proj;
 using final_proj.BL;
 using final_proj.Controllers;
-//using RuppinProj.Models;
 
-/// <summary>
-/// DBServices is a class created by me to provides some DataBase Services
-/// </summary>
-public class DBservicesTransportation_Line
+public class DBservicesTransportation_Line: GeneralDBservices
 {
-
-    public DBservicesTransportation_Line()
+    //--------------------------------
+    //add GET!!!!!!!!!!!!
+    //--------------------------------
+    public DBservicesTransportation_Line():base()
     {
-        //
-        // TODO: Add constructor logic here
-        //
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // This method creates a connection to the database according to the connectionString name in the web.config 
-    //--------------------------------------------------------------------------------------------------
-    public SqlConnection connect(String conString)
-    {
-
-        // read the connection string from the configuration file
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json").Build();
-        string cStr = configuration.GetConnectionString("myProjDB");
-        SqlConnection con = new SqlConnection(cStr);
-        con.Open();
-        return con;
+       
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -79,13 +60,6 @@ public class DBservicesTransportation_Line
             }
         }
 
-
-
-
-
-
-
-
     }
     public int UpdateTransportationLine(TransportationLine tl)
     {
@@ -125,8 +99,6 @@ public class DBservicesTransportation_Line
         }
 
     }
-
-
 
     private SqlCommand CreateTransportation_LineInsertCommandWithStoredProcedure(String spName, SqlConnection con, TransportationLine tl)
     {

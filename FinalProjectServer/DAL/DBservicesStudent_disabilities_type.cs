@@ -4,26 +4,12 @@ using System.Data.SqlClient;
 
 namespace final_proj.DAL
 {
-    public class DBservicesStudent_disabilities_type
+    public class DBservicesStudent_disabilities_type: GeneralDBservices
     {
-        public DBservicesStudent_disabilities_type()
+        public DBservicesStudent_disabilities_type():base()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+           
         }
-
-        public SqlConnection connect(String conString)
-        {
-            // Read the connection string from the configuration file
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json").Build();
-            string cStr = configuration.GetConnectionString("myProjDB");
-            SqlConnection con = new SqlConnection(cStr);
-            con.Open();
-            return con;
-        }
-
 
         public List<Student_disabilities_type> GetStudent_disabilities_type()
 
@@ -41,7 +27,7 @@ namespace final_proj.DAL
                 throw (ex);
             }
 
-            cmd = CreateCommandWithSPWithoutParametersEs("SPproj_GetStudentType", con);
+            cmd = CreateCommandWithSPWithoutParameters("SPproj_GetStudentType", con);
 
             try
             {
@@ -69,21 +55,7 @@ namespace final_proj.DAL
                 }
             }
         }
-        private SqlCommand CreateCommandWithSPWithoutParametersEs(String spName, SqlConnection con)
-        {
-
-            SqlCommand cmd = new SqlCommand(); // create the command object
-
-            cmd.Connection = con;              // assign the connection to the command object
-
-            cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
-
-            cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
-
-            cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
-
-            return cmd;
-        }
+        
 
 
     }

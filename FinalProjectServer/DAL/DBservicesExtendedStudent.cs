@@ -9,24 +9,13 @@ using final_proj;
 using final_proj.BL;
 using final_proj.Controllers;
 
-  public class DBservicesExtendedStudent
-  {
-    public DBservicesExtendedStudent()
+  public class DBservicesExtendedStudent: GeneralDBservices
+{
+    public DBservicesExtendedStudent():base()
     {
-        //
-        // TODO: Add constructor logic here
-        //
+        
     }
-    public SqlConnection connect(String conString)
-    {
-        // Read the connection string from the configuration file
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json").Build();
-        string cStr = configuration.GetConnectionString("myProjDB");
-        SqlConnection con = new SqlConnection(cStr);
-        con.Open();
-        return con;
-    }
+   
     public List<ExtendedStudent> GetExtendedStudent()
     {
         SqlConnection con;
@@ -42,7 +31,7 @@ using final_proj.Controllers;
             throw (ex);
         }
 
-        cmd = CreateCommandWithSPWithoutParametersExStu("SPproj_GetExtendedStudent", con);
+        cmd = CreateCommandWithSPWithoutParameters("SPproj_GetExtendedStudent", con);
 
         try
         {
@@ -99,21 +88,7 @@ using final_proj.Controllers;
             }
         }
     }
-    private SqlCommand CreateCommandWithSPWithoutParametersExStu(String spName, SqlConnection con)
-    {
-
-        SqlCommand cmd = new SqlCommand(); // create the command object
-
-        cmd.Connection = con;              // assign the connection to the command object
-
-        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
-
-        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
-
-        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
-
-        return cmd;
-    }
+   
 
 }    
 
