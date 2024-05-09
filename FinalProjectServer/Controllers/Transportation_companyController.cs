@@ -15,22 +15,10 @@ namespace final_proj.Controllers
             return TransportationCompany.Read();
         }
 
-        //// GET api/TransportationCompany/5
-        //[HttpGet("{companyCode}")]
-        //public ActionResult<TransportationCompany> Get(string companyCode)
-        //{
-        //    var transportationCompany = TransportationCompany.GetByCompanyCode(companyCode);
-        //    if (transportationCompany == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return transportationCompany;
-        //}
-
-        // POST api/TransportationCompany
         [HttpPost]
         public ActionResult<int> Post([FromBody] TransportationCompany company)
         {
+            
             var result = company.Insert();
             if (result == 0)
             {
@@ -45,7 +33,6 @@ namespace final_proj.Controllers
             return ed.Update();
         }
 
-        // DELETE api/<EducationalController>/5
         [HttpDelete("{id}")]
         public int Delete(string id)
         {

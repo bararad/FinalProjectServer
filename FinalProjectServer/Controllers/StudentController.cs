@@ -1,5 +1,6 @@
 ﻿using final_proj.BL;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,16 +19,48 @@ namespace final_proj.Controllers
 
         // POST api/<StudentController>
         [HttpPost]
-        public int Post([FromBody] Student student)
+        public ActionResult<int> Post([FromBody] Student student)
         {
-            return student.Insert();
+            try
+            {
+                var result = student.Insert();
+                return 1;
+            }
+            catch (SqlException ex) when (ex.Number == 547)
+            {
+                // Handle the case where the foreign key constraint is violated
+                // due to the absence of a matching value in the referenced table
+                return BadRequest("Foreign key constraint violation");
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+                return StatusCode(500, ex.Message);
+            }
+
         }
 
         // PUT api/<StudentController>/5
         [HttpPut()]
-        public int Put([FromBody] Student student)
+        public ActionResult<int> put([FromBody] Student student)
         {
-            return student.Update();
+            try
+            {
+                var result = student.Update();
+                return 1;
+            }
+            catch (SqlException ex) when (ex.Number == 547)
+            {
+                // Handle the case where the foreign key constraint is violated
+                // due to the absence of a matching value in the referenced table
+                return BadRequest("Foreign key constraint violation");
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+                return StatusCode(500, ex.Message);
+            }
+       
         }
 
 

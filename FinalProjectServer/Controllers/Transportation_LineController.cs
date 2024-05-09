@@ -10,21 +10,20 @@ namespace final_proj.Controllers
     [ApiController]
     public class Transportation_LineController : ControllerBase
     {
-        // GET: api/<Transportation_LineController>
+
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
        
-        // GET api/<Transportation_LineController>/5
+
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<Transportation_LineController>
         [HttpPost]
         public ActionResult<int> Post([FromBody] TransportationLine tl)
         {
@@ -37,7 +36,7 @@ namespace final_proj.Controllers
             {
                 // Handle the case where the foreign key constraint is violated
                 // due to the absence of a matching value in the referenced table
-                return BadRequest("Foreign key constraint violation: transportation company not found.");
+                return BadRequest("Foreign key constraint violation: transportation company or escort not found.");
             }
             catch (Exception ex)
             {

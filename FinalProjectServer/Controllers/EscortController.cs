@@ -1,5 +1,6 @@
 ﻿using final_proj.BL;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace final_proj.Controllers
@@ -10,36 +11,63 @@ namespace final_proj.Controllers
     {
         // GET: api/<EscortController>
         [HttpGet]
-        public IEnumerable<Escort> Get()
+        public IActionResult Get()
         {
-            return Escort.Read();
+            try
+            {
+                IEnumerable<Escort> escorts = Escort.Read();
+                return Ok(escorts);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
-
-
 
         // POST api/<EscortController>
         [HttpPost]
-        public int Post([FromBody] Escort escort)
+        public IActionResult Post([FromBody] Escort escort)
         {
-            return escort.Insert();
+            try
+            {
+                int result = escort.Insert();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
-
-
-
 
         // PUT api/<EscortController>
         [HttpPut()]
-        public int Put([FromBody] Escort escort)
+        public IActionResult Put([FromBody] Escort escort)
         {
-            return escort.Update();
+            try
+            {
+                int result = escort.Update();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         // DELETE api/<EscortController>/5
         [HttpDelete("{id}")]
-        public int Delete(string id)
+        public IActionResult Delete(string id)
         {
-            Escort escort = new Escort();
-            return escort.Delete(id);
+            try
+            {
+                Escort escort = new Escort();
+                int result = escort.Delete(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

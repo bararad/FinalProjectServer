@@ -13,7 +13,7 @@
         private string company_City;
         private string company_Comments;
 
-        // Constructor
+    
         public TransportationCompany(string companyCode, string companyName, string companyEmail, string companyPhone,
                                      string managerName, string managerPhone, string companyStreet, int companyHomeNum,
                                      string companyCity, string companyComments)
@@ -30,7 +30,6 @@
             Company_Comments = companyComments;
         }
 
-        // Default constructor
         public TransportationCompany() { }
 
         // Properties

@@ -127,6 +127,8 @@ public class DBservicesEducationalInstitution: GeneralDBservices
         }
 
     }
+    // This method Delete a EducationalInstitution from the EducationalInstitution table
+
     public int DeleteEducation(string institution_id)
     {
 
@@ -166,6 +168,9 @@ public class DBservicesEducationalInstitution: GeneralDBservices
         }
 
     }
+    // This method Update a EducationalInstitution from the EducationalInstitution table
+
+
     public int insertUpdateEducation(EducationalInstitution edu)
     {
         SqlConnection con;

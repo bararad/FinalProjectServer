@@ -15,7 +15,8 @@ public class DBservicesParent: GeneralDBservices
     {
        
     }
-    
+
+    // This method Inserts a Parent to the Parent table 
 
     public int InsertParent(Parent parent,string stu_id)
     {
@@ -50,6 +51,7 @@ public class DBservicesParent: GeneralDBservices
             }
         }
     }
+    // This method get a Parent from the Parent table
 
     public List<Parent> GetParent()
     {
@@ -99,6 +101,7 @@ public class DBservicesParent: GeneralDBservices
     }
 
 
+    // This method Update a Parent from the Parent table
 
     public int UpdateParent(Parent parent)
     {
