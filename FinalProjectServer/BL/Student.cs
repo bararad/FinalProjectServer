@@ -38,10 +38,15 @@
         public string Stu_comments { get => stu_comments; set => stu_comments = value; }
         public List<Parent> Parents { get => parents; set => parents = value; }
 
-        public int Insert()
+        public int Insert()//insert the complexed object : student and then parent/s
         {
             DBservicesStudent dbs = new DBservicesStudent();
-            return dbs.InsertStudent(this);
+            int res=dbs.InsertStudent(this);
+            foreach (Parent p in this.Parents)
+            {
+                res += p.Insert(this.Stu_id);
+            }
+            return res;
         }
 
         public static List<Student> Read()

@@ -17,7 +17,7 @@ public class DBservicesParent: GeneralDBservices
     }
     
 
-    public int InsertParent(Parent parent)
+    public int InsertParent(Parent parent,string stu_id)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -31,7 +31,7 @@ public class DBservicesParent: GeneralDBservices
             throw (ex);
         }
 
-        cmd = CreateParentInsertCommandWithStoredProcedure("SPproj_InsertParent", con, parent);
+        cmd = CreateParentInsertCommandWithStoredProcedure("SPproj_InsertParent", con, parent, stu_id);
 
         try
         {
@@ -136,7 +136,7 @@ public class DBservicesParent: GeneralDBservices
 
   
 
-    private SqlCommand CreateParentInsertCommandWithStoredProcedure(string spName, SqlConnection con, Parent parent)
+    private SqlCommand CreateParentInsertCommandWithStoredProcedure(string spName, SqlConnection con, Parent parent,string stu_id)
     {
         SqlCommand cmd = new SqlCommand();
         cmd.Connection = con;
@@ -148,7 +148,7 @@ public class DBservicesParent: GeneralDBservices
         cmd.Parameters.AddWithValue("@street", parent.Stu_parentStreet);
         cmd.Parameters.AddWithValue("@house_number", parent.Stu_parentHomeNum);
         cmd.Parameters.AddWithValue("@city", parent.Stu_parentCity);
-        cmd.Parameters.AddWithValue("@stu_id", parent.Stu_id);
+        cmd.Parameters.AddWithValue("@stu_id", stu_id);
 
         return cmd;
     }

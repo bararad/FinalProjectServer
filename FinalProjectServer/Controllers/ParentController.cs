@@ -24,10 +24,10 @@ namespace final_proj.Controllers
         }
 
         // POST api/<PartnerController>
-        [HttpPost]
+        [HttpPost]////changed.....why do we need it at all?
         public int Post([FromBody] Parent parent)
         {
-            return parent.Insert();
+            return 0;
         }
 
         // PUT api/<PartnerController>/5

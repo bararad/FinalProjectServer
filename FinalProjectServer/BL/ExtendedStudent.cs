@@ -26,7 +26,7 @@
             int res = Student.Insert();
             foreach (Parent p in Parents)
             {
-                res += p.Insert();
+               
             }
             return res;
 
