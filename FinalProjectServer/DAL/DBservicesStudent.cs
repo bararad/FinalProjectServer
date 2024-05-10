@@ -15,6 +15,7 @@ public class DBservicesStudent: GeneralDBservices
     {
         
     }
+    // This method InsertS a Student from the Student table
 
     public int InsertStudent(Student student)
     {
@@ -49,6 +50,8 @@ public class DBservicesStudent: GeneralDBservices
             }
         }
     }
+    // This method get a Student from the Student table
+
     public List<Student> GetStudent()
     {
         SqlConnection con;
@@ -100,6 +103,7 @@ public class DBservicesStudent: GeneralDBservices
             }
         }
     }
+    // This method get a Parents of the students 
 
     public List<Parent> FindStudentParents(string stu_id)
     {
@@ -148,6 +152,7 @@ public class DBservicesStudent: GeneralDBservices
             }
         }
     }
+    // This method Update a Student from the Student table
 
 
     public int UpdateStudent(Student student)
