@@ -38,7 +38,9 @@
         public string Stu_comments { get => stu_comments; set => stu_comments = value; }
         public List<Parent> Parents { get => parents; set => parents = value; }
 
-        public int Insert()//insert the complexed object : student and then parent/s
+
+        //insert the complexed object : student and then parent/s
+        public int Insert()
         {
             DBservicesStudent dbs = new DBservicesStudent();
             int res=dbs.InsertStudent(this);
