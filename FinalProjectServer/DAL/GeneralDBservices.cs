@@ -13,10 +13,10 @@ using final_proj.Controllers;
     {
         public GeneralDBservices()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+           
         }
+
+
         //--------------------------------------------------------------------------------------------------
         // This method creates a connection to the database according to the connectionString name in the web.config 
         //-------------------------------------------------------------------------------
@@ -31,6 +31,7 @@ using final_proj.Controllers;
             con.Open();
             return con;
         }
+
         protected SqlCommand CreateCommandWithSPWithoutParameters(String spName, SqlConnection con)
         {
 
