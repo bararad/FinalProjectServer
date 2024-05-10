@@ -50,8 +50,8 @@ public class DBservicesStudent: GeneralDBservices
             }
         }
     }
-    // This method get a Student from the Student table
 
+    // This method gets Students from the Student table
     public List<Student> GetStudent()
     {
         SqlConnection con;
@@ -103,8 +103,9 @@ public class DBservicesStudent: GeneralDBservices
             }
         }
     }
-    // This method get a Parents of the students 
 
+
+    // This method gets the Parents of the students 
     public List<Parent> FindStudentParents(string stu_id)
     {
         SqlConnection con;
@@ -129,13 +130,13 @@ public class DBservicesStudent: GeneralDBservices
 
             while (dataReader.Read())
             {
-                Parent p1 = new Parent();
-                p1.Stu_parentCell = dataReader["cellphone"].ToString();
-                p1.Stu_parentName = dataReader["fullname"].ToString();
-                p1.Stu_parentCity = dataReader["city"].ToString();
-                p1.Stu_parentStreet = dataReader["street"].ToString();
-                p1.Stu_parentHomeNum = Convert.ToInt32(dataReader["house_number"]);
-                parents.Add(p1);
+                Parent p = new Parent();
+                p.Stu_parentCell = dataReader["cellphone"].ToString();
+                p.Stu_parentName = dataReader["fullname"].ToString();
+                p.Stu_parentCity = dataReader["city"].ToString();
+                p.Stu_parentStreet = dataReader["street"].ToString();
+                p.Stu_parentHomeNum = Convert.ToInt32(dataReader["house_number"]);
+                parents.Add(p);
             }
 
             return parents;
