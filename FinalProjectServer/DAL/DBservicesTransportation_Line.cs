@@ -22,7 +22,7 @@ public class DBservicesTransportation_Line: GeneralDBservices
     //--------------------------------------------------------------------------------------------------
     // This method Inserts a TransportationLine to the TransportationLine table 
     //--------------------------------------------------------------------------------------------------
-    public int InsertTransportationCompany(TransportationLine tl)
+    public int InsertTransportationLine(TransportationLine tl)
     {
 
         SqlConnection con;

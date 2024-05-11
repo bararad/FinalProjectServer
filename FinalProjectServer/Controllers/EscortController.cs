@@ -9,7 +9,6 @@ namespace final_proj.Controllers
     [ApiController]
     public class EscortController : ControllerBase
     {
-        // GET: api/<EscortController>
         [HttpGet]
         public IActionResult Get()
         {
@@ -24,7 +23,6 @@ namespace final_proj.Controllers
             }
         }
 
-        // POST api/<EscortController>
         [HttpPost]
         public IActionResult Post([FromBody] Escort escort)
         {
@@ -33,28 +31,42 @@ namespace final_proj.Controllers
                 int result = escort.Insert();
                 return Ok(result);
             }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                // For example if a user enters an existing ID
+                return BadRequest("An error occurred while inserting data: " + ex.Message);
+            }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                // For simplicity, just return a BadRequest with the error message
+                return StatusCode(500, "An unexpected error occurred: " + ex.Message);
             }
         }
 
-        // PUT api/<EscortController>
         [HttpPut()]
         public IActionResult Put([FromBody] Escort escort)
         {
             try
             {
                 int result = escort.Update();
+                if(result == 0)
+                { 
+                    return BadRequest("This identifier does not exist in the database");
+                }
                 return Ok(result);
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                // For example if a user enters an existing ID
+                return BadRequest("An error occurred while updating data: " + ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                //  just return a BadRequest with the error message
+                return StatusCode(500, "An unexpected error occurred: " + ex.Message);
             }
         }
 
-        // DELETE api/<EscortController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {

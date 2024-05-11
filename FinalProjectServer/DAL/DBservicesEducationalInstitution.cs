@@ -8,10 +8,8 @@ using System.Text;
 using final_proj;
 using final_proj.BL;
 using final_proj.Controllers;
-//using RuppinProj.Models;
 
 /// <summary>
-/// DBServices is a class created by me to provides some DataBase Services
 /// </summary>
 public class DBservicesEducationalInstitution: GeneralDBservices
 {

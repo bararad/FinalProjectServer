@@ -24,12 +24,12 @@ namespace final_proj.Controllers
             try
             {
                 var result = student.Insert();
+
                 return 1;
             }
             catch (SqlException ex) when (ex.Number == 547)
             {
                 // Handle the case where the foreign key constraint is violated
-                // due to the absence of a matching value in the referenced table
                 return BadRequest("Foreign key constraint violation");
             }
             catch (Exception ex)
@@ -47,12 +47,16 @@ namespace final_proj.Controllers
             try
             {
                 var result = student.Update();
+                if (result == 0)
+                {
+                    return BadRequest("This identifier does not exist in the database");
+
+                }
                 return 1;
             }
             catch (SqlException ex) when (ex.Number == 547)
             {
                 // Handle the case where the foreign key constraint is violated
-                // due to the absence of a matching value in the referenced table
                 return BadRequest("Foreign key constraint violation");
             }
             catch (Exception ex)

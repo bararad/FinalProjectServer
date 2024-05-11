@@ -10,27 +10,57 @@ namespace final_proj.Controllers
     {
         // GET: api/TransportationCompany
         [HttpGet]
-        public IEnumerable<TransportationCompany> Get()
+        public IActionResult Get()
         {
-            return TransportationCompany.Read();
+            try
+            {
+                IEnumerable<TransportationCompany> companies = TransportationCompany.Read();
+                return Ok(companies);
+            }
+            catch (Exception ex)
+            {
+                // Return a StatusCode of 500 (Internal Server Error) 
+                return StatusCode(500, "An error occurred while fetching transportation companies: " + ex.Message);
+            }
         }
 
         [HttpPost]
-        public ActionResult<int> Post([FromBody] TransportationCompany company)
+        public IActionResult Post([FromBody] TransportationCompany company)
         {
-            
-            var result = company.Insert();
-            if (result == 0)
+            try
             {
-                return BadRequest();
+                int result = company.Insert();
+                if (result == 0)
+                {
+                    return BadRequest();
+                }
+                return Ok(result);
             }
-            return Ok(result);
+            catch (Exception ex)
+            {
+                // Return a StatusCode of 500 (Internal Server Error) 
+                return StatusCode(500, "An error occurred while inserting a transportation company: " + ex.Message);
+            }
         }
 
-        [HttpPut()]
-        public int Put([FromBody] TransportationCompany ed)
+            [HttpPut()]
+        public IActionResult Put([FromBody] TransportationCompany company)
         {
-            return ed.Update();
+            try
+            {
+                int result = company.Update();
+                if (result == 0) 
+                {
+
+                    return BadRequest("This identifier does not exist in the database");
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                // Return a StatusCode of 500 (Internal Server Error)
+                return StatusCode(500, "An error occurred while updating a transportation company: " + ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]

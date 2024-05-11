@@ -196,7 +196,7 @@ public class DBservicesTransportation_company: GeneralDBservices
     }
 
     //---------------------------------------------------------------------------------
-    // Create EducationalInstitution SqlCommand using a stored procedure
+    // Create TransportationCompany SqlCommand using a stored procedure
     //---------------------------------------------------------------------------------
 
     private SqlCommand DeleteTransportationCompanyCommandWithStoredProcedure(String spName, SqlConnection con, string TransportationCompany_id)

@@ -42,7 +42,7 @@
         public int Insert()
         {
             DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
-            return dbs.InsertTransportationCompany(this);
+            return dbs.InsertTransportationLine(this);
         }
 
         public int Update()

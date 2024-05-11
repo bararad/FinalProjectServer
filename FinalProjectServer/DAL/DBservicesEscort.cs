@@ -16,7 +16,6 @@ public class DBservicesEscort: GeneralDBservices
         
     }
     // This method Inserts a Escort to the Escort table 
-
     public int InsertEscort(Escort escort)
     {
         SqlConnection con;
@@ -51,7 +50,6 @@ public class DBservicesEscort: GeneralDBservices
         }
     }
     // This method get a Escort from the Escort table
-
     public List<Escort> GetEscort()
     {
         SqlConnection con;
@@ -102,7 +100,6 @@ public class DBservicesEscort: GeneralDBservices
     }
 
     // This method Delete Escort from the Escort table
-
     public int DeleteEscort(string esc_id)
     {
         SqlConnection con;
@@ -137,7 +134,6 @@ public class DBservicesEscort: GeneralDBservices
         }
     }
     // This method Update Escort from the Escort table
-
     public int UpdateEscort(Escort escort)
     {
         SqlConnection con;

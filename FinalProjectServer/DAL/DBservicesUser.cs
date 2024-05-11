@@ -17,6 +17,9 @@ public class DBservicesUser: GeneralDBservices
         
     }
 
+
+    //The users are created automaticly on SQL when using 'insertescort','insertparent'
+
     public User GetUserByDetails(User user)
     {
 

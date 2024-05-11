@@ -8,30 +8,67 @@ namespace final_proj.Controllers
     [ApiController]
     public class EducationalController : ControllerBase
     {
-        // GET: api/<EducationalController>
         [HttpGet]
-        public IEnumerable<EducationalInstitution> Get()
+        public IActionResult Get()
         {
-            return EducationalInstitution.Read();
+            try
+            {
+                IEnumerable<EducationalInstitution> educationalInstitutions = EducationalInstitution.Read();
+                return Ok(educationalInstitutions);
+            }
+            catch (Exception ex)
+            {
+                // Return a StatusCode of 500 (Internal Server Error) 
+                return StatusCode(500, "An error occurred while fetching educational institutions: " + ex.Message);
+            }
         }
-        //
 
 
-        // POST api/<EducationalController>
         [HttpPost]
-        public int Post([FromBody] EducationalInstitution ed)
+        public IActionResult Post([FromBody] EducationalInstitution ed)
         {
-            return ed.Insert();
+            try
+            {
+                int result = ed.Insert();
+                return Ok(result); // Return HTTP 200 OK with the result
+            }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+
+              //  For example if a user enters an existing ID
+                return BadRequest("An error occurred while inserting data: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                
+                // For simplicity, just return a BadRequest with the error message
+                return StatusCode(500, "An unexpected error occurred: " + ex.Message);
+            }
         }
+
 
 
         [HttpPut()]
-        public int Put([FromBody] EducationalInstitution ed)
+        public IActionResult Put([FromBody] EducationalInstitution ed)
         {
-            return ed.UpdateEducation();
+            try
+            {
+                int result = ed.UpdateEducation();
+                //check the id of the update
+                if (result == 0)
+                {
+                    return BadRequest("This identifier does not exist in the database");
+                }
+
+                return Ok(result); // Return HTTP 200 OK with the result
+            }
+            catch (Exception ex)
+            {
+                // For simplicity, just return a BadRequest with the error message
+                return StatusCode(500, "An unexpected error occurred: " + ex.Message);
+            }
         }
 
-        // DELETE api/<EducationalController>/5
         [HttpDelete("{id}")]
         public int Delete(string id)
         {

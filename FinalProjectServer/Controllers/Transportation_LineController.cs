@@ -35,7 +35,6 @@ namespace final_proj.Controllers
             catch (SqlException ex) when (ex.Number == 547)
             {
                 // Handle the case where the foreign key constraint is violated
-                // due to the absence of a matching value in the referenced table
                 return BadRequest("Foreign key constraint violation: transportation company or escort not found.");
             }
             catch (Exception ex)
@@ -56,7 +55,6 @@ namespace final_proj.Controllers
             catch (SqlException ex) when (ex.Number == 547)
             {
                 // Handle the case where the foreign key constraint is violated
-                // due to the absence of a matching value in the referenced table
                 return BadRequest("Foreign key constraint violation: transportation company not found.");
             }
             catch (Exception ex)

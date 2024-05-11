@@ -10,12 +10,20 @@ namespace final_proj.Controllers
     {
         // GET: api/<Student_disabilities_typeController>
         [HttpGet]
-        public IEnumerable<Student_disabilities_type> Get()
+        public IActionResult Get()
         {
-            return Student_disabilities_type.Read();
+            try
+            {
+                IEnumerable<Student_disabilities_type> disabilitiesTypes = Student_disabilities_type.Read();
+                return Ok(disabilitiesTypes);
+            }
+            catch (Exception ex)
+            {
+                // Return a StatusCode of 500 (Internal Server Error) 
+                return StatusCode(500, "An error occurred while fetching student disabilities types: " + ex.Message);
+            }
         }
-        // GET api/<Student_disabilities_typeController>/5
-     
+
 
     }
 }
