@@ -15,7 +15,6 @@ public class DBservicesStudent: GeneralDBservices
     {
         
     }
-    // This method InsertS a Student from the Student table
 
     public int InsertStudent(Student student)
     {
@@ -51,7 +50,6 @@ public class DBservicesStudent: GeneralDBservices
         }
     }
 
-    // This method gets Students from the Student table
     public List<Student> GetStudent()
     {
         SqlConnection con;
@@ -105,7 +103,8 @@ public class DBservicesStudent: GeneralDBservices
     }
 
 
-    // This method gets the Parents of the students 
+    // this method returns the parent/s of a specific student from the student table through the connections on the connectionTable "ParentOfStudent".
+
     public List<Parent> FindStudentParents(string stu_id)
     {
         SqlConnection con;

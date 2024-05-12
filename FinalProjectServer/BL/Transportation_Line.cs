@@ -12,6 +12,7 @@
         private string transportation_company;
         private DateTime time_of_line;
         private string comments;
+        private List<Student> students; //same as parents
 
         public TransportationLine(int line_code, DateTime definition_date, string line_car, int number_of_seats, string school_of_line, string station_definition, string escort_incharge, string transportation_company, DateTime time_of_line, string comments)
         {
