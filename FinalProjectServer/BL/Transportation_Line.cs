@@ -2,6 +2,8 @@
 {
     public class TransportationLine
     {
+        static readonly HttpClient client = new HttpClient();
+
         private int line_code;
         private DateTime definition_date;
         private string line_car;
@@ -52,7 +54,23 @@
             return dbs.UpdateTransportationLine(this);
         }
 
+        public static async Task CreateRoute(Object[] points)
+        {
+            try
+            {
+                using HttpResponseMessage response = await client.GetAsync("tomtom geocode api");//fetch
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
 
+                //ask for help from Doc Prof Google about HttpClient Object 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
 
 
 
