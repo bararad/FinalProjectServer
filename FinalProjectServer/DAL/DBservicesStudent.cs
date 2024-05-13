@@ -135,6 +135,8 @@ public class DBservicesStudent: GeneralDBservices
                 p.Stu_parentCity = dataReader["city"].ToString();
                 p.Stu_parentStreet = dataReader["street"].ToString();
                 p.Stu_parentHomeNum = Convert.ToInt32(dataReader["house_number"]);
+                p.Lng = Convert.ToDouble(dataReader["lng"]);
+                p.Lat = Convert.ToDouble(dataReader["lat"]);
                 parents.Add(p);
             }
 

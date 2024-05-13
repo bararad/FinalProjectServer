@@ -25,7 +25,7 @@ namespace final_proj.Controllers
             {
                 var result = student.Insert();
 
-                return 1;
+                return result;
             }
             catch (SqlException ex) when (ex.Number == 547)
             {
@@ -42,7 +42,7 @@ namespace final_proj.Controllers
 
         // PUT api/<StudentController>/5
         [HttpPut()]
-        public ActionResult<int> put([FromBody] Student student)
+        public ActionResult<int> Put([FromBody] Student student)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace final_proj.Controllers
                     return BadRequest("This identifier does not exist in the database");
 
                 }
-                return 1;
+                return result;
             }
             catch (SqlException ex) when (ex.Number == 547)
             {

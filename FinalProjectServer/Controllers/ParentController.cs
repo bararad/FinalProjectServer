@@ -41,6 +41,7 @@ namespace final_proj.Controllers
         [HttpPost]
         public int Post([FromBody] Parent parent)
         {
+            //no insertion here
             return 0;
         }
 

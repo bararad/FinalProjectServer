@@ -79,7 +79,9 @@ public class DBservicesParent: GeneralDBservices
                 parent.Stu_parentCell = dataReader["cellphone"].ToString();
                 parent.Stu_parentCity = dataReader["city"].ToString();
                 parent.Stu_parentStreet = dataReader["street"].ToString();
-                parent.Stu_parentHomeNum = Convert.ToInt32(dataReader["house_number"]);               
+                parent.Stu_parentHomeNum = Convert.ToInt32(dataReader["house_number"]);
+                parent.Lat = Convert.ToDouble(dataReader["lat"]);
+                parent.Lng = Convert.ToDouble(dataReader["lng"]);
 
                 parentList.Add(parent);
             }
@@ -148,6 +150,8 @@ public class DBservicesParent: GeneralDBservices
         cmd.Parameters.AddWithValue("@street", parent.Stu_parentStreet);
         cmd.Parameters.AddWithValue("@house_number", parent.Stu_parentHomeNum);
         cmd.Parameters.AddWithValue("@city", parent.Stu_parentCity);
+        cmd.Parameters.AddWithValue("@lat", parent.Lat);
+        cmd.Parameters.AddWithValue("@lng", parent.Lng);
         cmd.Parameters.AddWithValue("@stu_id", stu_id);
 
         return cmd;
@@ -165,6 +169,8 @@ public class DBservicesParent: GeneralDBservices
         cmd.Parameters.AddWithValue("@street", parent.Stu_parentStreet);
         cmd.Parameters.AddWithValue("@house_number", parent.Stu_parentHomeNum);
         cmd.Parameters.AddWithValue("@city", parent.Stu_parentCity);
+        cmd.Parameters.AddWithValue("@lat", parent.Lat);
+        cmd.Parameters.AddWithValue("@lng", parent.Lng);
         return cmd;
     }
 

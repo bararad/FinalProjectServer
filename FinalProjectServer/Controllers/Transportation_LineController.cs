@@ -79,7 +79,7 @@ namespace final_proj.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("CreateRoute")]
         public ActionResult<int> AddStudentsAndCreateRoute([FromBody] JsonElement data)
         {
             try
@@ -87,7 +87,7 @@ namespace final_proj.Controllers
                 //לשלוח את המידע למסד הנתונים ולשמור אותו
                 //לקבל בחזרה את רשימת הכתובות של כל התלמידים ששוייכו לקו
                 //לפנות לטומטום וליצור מסלול
-                
+
 
                 return Ok(1);
             }
