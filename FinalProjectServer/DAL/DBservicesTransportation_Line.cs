@@ -88,7 +88,7 @@ public class DBservicesTransportation_Line: GeneralDBservices
              // create a specific object for each row that returned from the SQL
                 var location = new
                 {
-                    linecode = linecode,
+                   
                     Lat = Convert.ToDouble(dataReader["lat"]),
                     Lng = Convert.ToDouble(dataReader["lng"])
                 };
@@ -96,6 +96,8 @@ public class DBservicesTransportation_Line: GeneralDBservices
                 locations.Add(location);
             }
             //list of specifics objects
+            locations.Insert(0, "line code:" + linecode);
+
             return locations;
         }
         catch (Exception ex)
