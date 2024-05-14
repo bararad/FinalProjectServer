@@ -30,6 +30,10 @@
             this.comments = comments;
         }
 
+        public TransportationLine()
+        {
+        }
+
         public int Line_code { get => line_code; set => line_code = value; }
         public DateTime Definition_date { get => definition_date; set => definition_date = value; }
         public string Line_car { get => line_car; set => line_car = value; }
@@ -71,6 +75,15 @@
             }
 
         }
+
+        public object GetLinelocation(int linecode)
+        {
+            DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
+            return dbs.Getparentlocation(linecode);
+
+        }
+
+   
 
 
 

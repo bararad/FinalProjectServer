@@ -61,6 +61,61 @@ public class DBservicesTransportation_Line: GeneralDBservices
         }
 
     }
+
+    //useing of Ad Hoc 
+    public object Getparentlocation(int linecode)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        List<object> locations = new List<object>();
+
+        try
+        {
+            con = connect("myProjDB");
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        cmd = getlocationparentCommandWithStoredProcedure("SPproj_GetParentasdreespoin", con, linecode);
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+
+            while (dataReader.Read())
+            {
+             // create a specific object for each row that returned from the SQL
+                var location = new
+                {
+                    linecode = linecode,
+                    Lat = Convert.ToDouble(dataReader["lat"]),
+                    Lng = Convert.ToDouble(dataReader["lng"])
+                };
+
+                locations.Add(location);
+            }
+            //list of specifics objects
+            return locations;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+  
+}
+
     public int UpdateTransportationLine(TransportationLine tl)
     {
         SqlConnection con;
@@ -124,6 +179,24 @@ public class DBservicesTransportation_Line: GeneralDBservices
         cmd.Parameters.AddWithValue("@time_of_line", tl.Time_of_line);
         cmd.Parameters.AddWithValue("@comments", tl.Comments);
 
+        return cmd;
+
+    }
+
+    private SqlCommand getlocationparentCommandWithStoredProcedure(String spName, SqlConnection con, int linecode)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+       
+        cmd.Parameters.AddWithValue("@lineCode", linecode);
         return cmd;
 
     }
