@@ -8,6 +8,7 @@ using System.Text;
 using final_proj;
 using final_proj.BL;
 using final_proj.Controllers;
+using System.Text.Json;
 
 public class DBservicesTransportation_Line: GeneralDBservices
 {
@@ -59,9 +60,8 @@ public class DBservicesTransportation_Line: GeneralDBservices
 
     }
 
-    //in this function there is a use of AdHoc objects to store the location points of the students in the line and then another AdHoc obj to connect
-    //the line code to the locations together
-    public object Getparentlocation(int linecode)
+    //in this function there is a use of AdHoc objects to store the location points of the students in the line 
+    public List<Object> Getparentlocation(int linecode)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -84,19 +84,17 @@ public class DBservicesTransportation_Line: GeneralDBservices
             while (dataReader.Read())
             {
              // create a specific object for each row that returned from the SQL
-                var location = new
+                var location = new 
                 {
-                   
                     Lat = Convert.ToDouble(dataReader["lat"]),
                     Lng = Convert.ToDouble(dataReader["lng"])
                 };
 
                 locations.Add(location);
             }
-            //create an object that contains the line code and the locations array of the students in the line
-            object obj = new {lineCode=linecode, locationsArr= locations} ;
+            //create a List that contains the locations array of the students in the line 
 
-            return obj;
+            return locations;
         }
         catch (Exception ex)
         {

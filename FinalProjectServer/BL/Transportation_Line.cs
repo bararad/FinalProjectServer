@@ -1,4 +1,6 @@
-﻿namespace final_proj.BL
+﻿using System.Text.Json;
+
+namespace final_proj.BL
 {
     public class TransportationLine
     {
@@ -76,7 +78,7 @@
 
         }
 
-        public object GetLinelocation(int linecode)
+        public List<Object> GetLinelocation(int linecode)
         {
             DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
             return dbs.Getparentlocation(linecode);

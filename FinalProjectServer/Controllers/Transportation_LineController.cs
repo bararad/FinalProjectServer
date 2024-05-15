@@ -75,8 +75,7 @@ namespace final_proj.Controllers
                 int linecode = 19;
                 // Get the transportation line location data
                 TransportationLine tr = new TransportationLine();
-                var lineData= tr.GetLinelocation(linecode);
-                List<object> locationsArr = lineData.locationsArr;
+                List<Object> points = tr.GetLinelocation(linecode);
 
                 return Ok(1);
             }
