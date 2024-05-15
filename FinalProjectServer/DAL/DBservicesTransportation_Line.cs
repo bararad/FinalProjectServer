@@ -121,10 +121,9 @@ public class DBservicesTransportation_Line : GeneralDBservices
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
-            Point p = new Point();
-
             while (dataReader.Read())
             {
+                Point p = new Point();
                 p.latitude=Convert.ToDouble(dataReader["lat"]);
                 p.longitude = Convert.ToDouble(dataReader["lng"]);
                 
