@@ -11,9 +11,6 @@ using final_proj.Controllers;
 
 public class DBservicesTransportation_Line: GeneralDBservices
 {
-    //--------------------------------
-    //add GET!!!!!!!!!!!!
-    //--------------------------------
     public DBservicesTransportation_Line():base()
     {
        

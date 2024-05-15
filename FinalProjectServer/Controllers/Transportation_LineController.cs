@@ -19,9 +19,6 @@ namespace final_proj.Controllers
         }
 
 
-        [HttpGet("{id}")]
-
-
         [HttpPost]
         public ActionResult<int> Post([FromBody] TransportationLine tl)
         {
@@ -62,19 +59,6 @@ namespace final_proj.Controllers
             }
         }
 
-
-
-        // PUT api/<Transportation_LineController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<Transportation_LineController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
 
 
         [HttpPost("CreateRoute")]
