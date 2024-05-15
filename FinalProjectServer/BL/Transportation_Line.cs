@@ -1,4 +1,10 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Globalization;
+using System.Reflection;
+using System.Text;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace final_proj.BL
 {
@@ -61,22 +67,43 @@ namespace final_proj.BL
         }
 
 
-        
-        public static async Task CreateOptimalRoute(Object[] points)
+
+        public static async Task<List<Point>> CreateOptimalRoute(List<Point> waypoints)
         {
             try
             {
-                string apiKey = "VjHNmfvNkTdJy9uC06GGCO5vPjwSAzZI";
-                string url = $"https://api.tomtom.com/routing/waypointoptimization/1?key={apiKey}";
+
+                string url = "https://api.tomtom.com/routing/waypointoptimization/1?key=pQ2wOkN7gW5AktUC12urg6Z2M8lkiIFH";
+
+                JArray waypointsToSend = new JArray();
+
+                foreach (Point point in waypoints)
+                {
+                    JObject o = new JObject();
+                    o.Add("point", JToken.FromObject(point));
+                    waypointsToSend.Add(o);
+                }
 
 
+                JObject obj = new JObject();
+                obj["waypoints"] = waypointsToSend;
 
 
-                //using HttpResponseMessage response = await client.PostAsync(url, pointslist);//fetch
-                //response.EnsureSuccessStatusCode();
-                //string responseBody = await response.Content.ReadAsStringAsync();
+                HttpClient client = new HttpClient();
+                var response = await client.PostAsync(url, new StringContent(obj.ToString().Replace("{{", "{").Replace("}}", "}"), Encoding.UTF8, "application/json"));
+                string responseBody = await response.Content.ReadAsStringAsync();
 
-                //ask for help from Doc Prof Google about HttpClient Object 
+                JObject res = JObject.Parse(responseBody);
+                List<int> order = JsonConvert.DeserializeObject<List<int>>(res["optimizedOrder"].ToString());
+
+                List<Point> optimizedPoints = new List<Point>();
+                foreach (int location in order) {
+                    optimizedPoints.Add(waypoints[location]);
+                }
+
+                return optimizedPoints;
+
+                //add to the server
 
             }
             catch (Exception)
@@ -91,16 +118,15 @@ namespace final_proj.BL
         {
             DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
             //add all students to line
-            int numaffected=dbs.InsertStudentsToLine(ids, linecode);
+            int numaffected = dbs.InsertStudentsToLine(ids, linecode);
 
             //get all adresses of students in line
-            List<Object> points=dbs.GetAdressfromParent(linecode);
-            object[] pointsArray = points.ToArray();
-            return CreateOptimalRoute(pointsArray);
+            List<Point> waypoints = dbs.GetAdressfromParent(linecode);
+            return CreateOptimalRoute(waypoints);
 
         }
 
-   
+
 
 
 

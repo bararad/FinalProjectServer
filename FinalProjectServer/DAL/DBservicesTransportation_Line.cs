@@ -102,11 +102,11 @@ public class DBservicesTransportation_Line : GeneralDBservices
 
 
     //in this function there is a use of AdHoc objects to store the location points of the students in the line 
-    public List<Object> GetAdressfromParent(int linecode)
+    public List<Point> GetAdressfromParent(int linecode)
     {
         SqlConnection con;
         SqlCommand cmd;
-        List<object> locations = new List<object>();
+        List<Point> waypoints = new List<Point>();
 
         try
         {
@@ -121,23 +121,18 @@ public class DBservicesTransportation_Line : GeneralDBservices
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
+            Point p = new Point();
 
             while (dataReader.Read())
             {
-                // create a specific object for each row that returned from the SQL
-                var location = new
-
-                {
-                    lat = Convert.ToDouble(dataReader["lat"]),
-                    lng = Convert.ToDouble(dataReader["lng"])
-                };
-
-
-                locations.Add(location);
+                p.latitude=Convert.ToDouble(dataReader["lat"]);
+                p.longitude = Convert.ToDouble(dataReader["lng"]);
+                
+                waypoints.Add(p);
             }
             //create a List that contains the locations array of the students in the line 
 
-            return locations;
+            return waypoints;
         }
         catch (Exception ex)
         {
@@ -242,7 +237,7 @@ public class DBservicesTransportation_Line : GeneralDBservices
 
     }
 
-    private SqlCommand StudentsinLineInsertionCommandWithStoredProcedure(String spName,SqlConnection con,string ids,int linecode)
+    private SqlCommand StudentsinLineInsertionCommandWithStoredProcedure(String spName, SqlConnection con, string ids, int linecode)
     {
         SqlCommand cmd = new SqlCommand(); // create the command object
 
@@ -256,7 +251,7 @@ public class DBservicesTransportation_Line : GeneralDBservices
 
         cmd.Parameters.AddWithValue("@linecode", linecode);
         cmd.Parameters.AddWithValue("@ids", ids);
-       
+
 
         return cmd;
     }
