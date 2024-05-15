@@ -59,7 +59,8 @@ public class DBservicesTransportation_Line: GeneralDBservices
 
     }
 
-    //useing of Ad Hoc 
+    //in this function there is a use of AdHoc objects to store the location points of the students in the line and then another AdHoc obj to connect
+    //the line code to the locations together
     public object Getparentlocation(int linecode)
     {
         SqlConnection con;
@@ -92,10 +93,10 @@ public class DBservicesTransportation_Line: GeneralDBservices
 
                 locations.Add(location);
             }
-            //list of specifics objects
-            locations.Insert(0, "line code:" + linecode);
+            //create an object that contains the line code and the locations array of the students in the line
+            object obj = new {lineCode=linecode, locationsArr= locations} ;
 
-            return locations;
+            return obj;
         }
         catch (Exception ex)
         {

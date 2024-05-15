@@ -66,10 +66,17 @@ namespace final_proj.Controllers
         {
             try
             {
-                //לשלוח את המידע למסד הנתונים ולשמור אותו
+                // Store the student IDs in the database
+                string ids = "212042422,314649344,205050555";
+                //לשלוח את המידע למסד הנתונים ולשמור אותו בטבלת קשר תלמיד בקו
+
                 //לקבל בחזרה את רשימת הכתובות של כל התלמידים ששוייכו לקו
                 //לפנות לטומטום וליצור מסלול
-
+                int linecode = 19;
+                // Get the transportation line location data
+                TransportationLine tr = new TransportationLine();
+                var lineData= tr.GetLinelocation(linecode);
+                List<object> locationsArr = lineData.locationsArr;
 
                 return Ok(1);
             }
