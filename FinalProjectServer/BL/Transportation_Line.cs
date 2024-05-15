@@ -60,15 +60,24 @@ namespace final_proj.BL
             return dbs.UpdateTransportationLine(this);
         }
 
-        public static async Task CreateRoute(Object[] points)
+
+        
+        public static async Task CreateOptimalRoute(Object[] points)
         {
             try
             {
-                using HttpResponseMessage response = await client.GetAsync("tomtom geocode api");//fetch
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
+                string apiKey = "VjHNmfvNkTdJy9uC06GGCO5vPjwSAzZI";
+                string url = $"https://api.tomtom.com/routing/waypointoptimization/1?key={apiKey}";
+
+
+
+
+                //using HttpResponseMessage response = await client.PostAsync(url, pointslist);//fetch
+                //response.EnsureSuccessStatusCode();
+                //string responseBody = await response.Content.ReadAsStringAsync();
 
                 //ask for help from Doc Prof Google about HttpClient Object 
+
             }
             catch (Exception)
             {
@@ -78,10 +87,16 @@ namespace final_proj.BL
 
         }
 
-        public List<Object> GetLinelocation(int linecode)
+        public Task InsertStudentsAndGetOptimalRoute(string ids, int linecode)
         {
             DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
-            return dbs.Getparentlocation(linecode);
+            //add all students to line
+            int numaffected=dbs.InsertStudentsToLine(ids, linecode);
+
+            //get all adresses of students in line
+            List<Object> points=dbs.GetAdressfromParent(linecode);
+            object[] pointsArray = points.ToArray();
+            return CreateOptimalRoute(pointsArray);
 
         }
 

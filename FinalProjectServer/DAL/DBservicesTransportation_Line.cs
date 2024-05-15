@@ -10,11 +10,11 @@ using final_proj.BL;
 using final_proj.Controllers;
 using System.Text.Json;
 
-public class DBservicesTransportation_Line: GeneralDBservices
+public class DBservicesTransportation_Line : GeneralDBservices
 {
-    public DBservicesTransportation_Line():base()
+    public DBservicesTransportation_Line() : base()
     {
-       
+
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -60,8 +60,49 @@ public class DBservicesTransportation_Line: GeneralDBservices
 
     }
 
+
+    public int InsertStudentsToLine(string ids, int linecode)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = StudentsinLineInsertionCommandWithStoredProcedure("SPproj_InsertStudentToLine", con, ids, linecode);// create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+
     //in this function there is a use of AdHoc objects to store the location points of the students in the line 
-    public List<Object> Getparentlocation(int linecode)
+    public List<Object> GetAdressfromParent(int linecode)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -83,12 +124,14 @@ public class DBservicesTransportation_Line: GeneralDBservices
 
             while (dataReader.Read())
             {
-             // create a specific object for each row that returned from the SQL
-                var location = new 
+                // create a specific object for each row that returned from the SQL
+                var location = new
+
                 {
-                    Lat = Convert.ToDouble(dataReader["lat"]),
-                    Lng = Convert.ToDouble(dataReader["lng"])
+                    lat = Convert.ToDouble(dataReader["lat"]),
+                    lng = Convert.ToDouble(dataReader["lng"])
                 };
+
 
                 locations.Add(location);
             }
@@ -111,8 +154,8 @@ public class DBservicesTransportation_Line: GeneralDBservices
             }
         }
 
-  
-}
+
+    }
 
     public int UpdateTransportationLine(TransportationLine tl)
     {
@@ -193,13 +236,30 @@ public class DBservicesTransportation_Line: GeneralDBservices
         cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
 
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
-       
+
         cmd.Parameters.AddWithValue("@lineCode", linecode);
         return cmd;
 
     }
 
+    private SqlCommand StudentsinLineInsertionCommandWithStoredProcedure(String spName,SqlConnection con,string ids,int linecode)
+    {
+        SqlCommand cmd = new SqlCommand(); // create the command object
 
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@linecode", linecode);
+        cmd.Parameters.AddWithValue("@ids", ids);
+       
+
+        return cmd;
+    }
 
     private SqlCommand UpdateTransportationLineCommandWithStoredProcedure(String spName, SqlConnection con, TransportationLine tl)
     {

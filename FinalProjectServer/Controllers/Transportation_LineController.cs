@@ -10,13 +10,13 @@ namespace final_proj.Controllers
     [ApiController]
     public class Transportation_LineController : ControllerBase
     {
-        [HttpGet]
-        //this function gets line code from the client and return with Ad Hoc the Latitude and Longitude of all the stations.
-        public object getlocat(int linecod)
-        {
-            TransportationLine tr = new TransportationLine();
-            return tr.GetLinelocation(linecod);
-        }
+        //[HttpGet]
+        ////this function gets line code from the client and return with Ad Hoc the Latitude and Longitude of all the stations.
+        //public object getlocat(int linecod)
+        //{
+        //    TransportationLine tr = new TransportationLine();
+        //    return tr.GetLinePoints(linecod);
+        //}
 
 
         [HttpPost]
@@ -67,15 +67,24 @@ namespace final_proj.Controllers
             try
             {
                 // Store the student IDs in the database
-                string ids = "212042422,314649344,205050555";
-                //לשלוח את המידע למסד הנתונים ולשמור אותו בטבלת קשר תלמיד בקו
+                //a procedure that we will later on create
+                //for now- were working on hard coded data from DB
+                //-----------------------------------------
+                //data.GetProperty('')
+                string ids =  "212042422,314649344,205050555" ;
+                int linecode = 16;
+
+                TransportationLine tr = new TransportationLine();
+                Task optimalRoute= tr.InsertStudentsAndGetOptimalRoute(ids, linecode);
+
 
                 //לקבל בחזרה את רשימת הכתובות של כל התלמידים ששוייכו לקו
                 //לפנות לטומטום וליצור מסלול
-                int linecode = 19;
-                // Get the transportation line location data
-                TransportationLine tr = new TransportationLine();
-                List<Object> points = tr.GetLinelocation(linecode);
+
+                //// Get the transportation line location data
+                //TransportationLine tr = new TransportationLine();
+                //List<Object> points = tr.CreateRoute(linecode);
+
 
                 return Ok(1);
             }
