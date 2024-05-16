@@ -66,11 +66,7 @@ namespace final_proj.Controllers
         {
             try
             {
-                // Store the student IDs in the database
-                //a procedure that we will later on create
-                //for now- were working on hard coded data from DB
-                //-----------------------------------------
-                //data.GetProperty('')
+               //connect to client in the future
                 string ids =  "212042422,314649344,205050555" ;
                 int linecode = 16;
 
@@ -78,12 +74,6 @@ namespace final_proj.Controllers
                 Task optimalRoute= tr.InsertStudentsAndGetOptimalRoute(ids, linecode);
 
 
-                //לקבל בחזרה את רשימת הכתובות של כל התלמידים ששוייכו לקו
-                //לפנות לטומטום וליצור מסלול
-
-                //// Get the transportation line location data
-                //TransportationLine tr = new TransportationLine();
-                //List<Object> points = tr.CreateRoute(linecode);
 
 
                 return Ok(1);

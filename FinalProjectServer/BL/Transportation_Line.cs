@@ -79,7 +79,9 @@ namespace final_proj.BL
 
                 foreach (Point point in waypoints)
                 {
+                    //defines a JSON object
                     JObject o = new JObject();
+                    //creates a key value sturcture in JSON according to token
                     o.Add("point", JToken.FromObject(point));
                     waypointsToSend.Add(o);
                 }
@@ -93,6 +95,7 @@ namespace final_proj.BL
                 var response = await client.PostAsync(url, new StringContent(obj.ToString().Replace("{{", "{").Replace("}}", "}"), Encoding.UTF8, "application/json"));
                 string responseBody = await response.Content.ReadAsStringAsync();
 
+                //parse to JSON object to reach the exact field of the optimized route
                 JObject res = JObject.Parse(responseBody);
                 List<int> order = JsonConvert.DeserializeObject<List<int>>(res["optimizedOrder"].ToString());
 
@@ -103,7 +106,7 @@ namespace final_proj.BL
 
                 return optimizedPoints;
 
-                //add to the server
+                //add to the DB
 
             }
             catch (Exception)
