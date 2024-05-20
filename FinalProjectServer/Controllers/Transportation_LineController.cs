@@ -66,9 +66,9 @@ namespace final_proj.Controllers
         {
             try
             {
-               //connect to client in the future
-                string ids =  "212042422,314649344,205050555" ;
+                string ids = "212042422,314649344,205050555";
                 int linecode = 16;
+
 
                 TransportationLine tr = new TransportationLine();
                 Task optimalRoute= tr.InsertStudentsAndGetOptimalRoute(ids, linecode);

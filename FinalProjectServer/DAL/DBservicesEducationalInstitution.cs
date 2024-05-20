@@ -103,6 +103,8 @@ public class DBservicesEducationalInstitution: GeneralDBservices
                 edu.AnotherContact = dataReader["another_contact"].ToString();
                 edu.ContactPhone = dataReader["contact_phone"].ToString();
                 edu.Name = dataReader["institution_name"].ToString();
+                edu.Lat = Convert.ToDouble(dataReader["latschool"]);
+                edu.Lng = Convert.ToDouble(dataReader["lngschool"]);
 
                 edlist.Add(edu);
             }
@@ -267,6 +269,9 @@ public class DBservicesEducationalInstitution: GeneralDBservices
         cmd.Parameters.AddWithValue("@another_contact", ed.AnotherContact);
         cmd.Parameters.AddWithValue("@contact_phone", ed.ContactPhone);
         cmd.Parameters.AddWithValue("@institution_name", ed.Name);
+        cmd.Parameters.AddWithValue("@latschool", ed.Lat);
+        cmd.Parameters.AddWithValue("@lngschool", ed.Lng);
+
 
         return cmd;
     }
@@ -294,6 +299,8 @@ public class DBservicesEducationalInstitution: GeneralDBservices
         cmd.Parameters.AddWithValue("@another_contact", ed.AnotherContact);
         cmd.Parameters.AddWithValue("@contact_phone", ed.ContactPhone);
         cmd.Parameters.AddWithValue("@institution_name", ed.Name);
+        cmd.Parameters.AddWithValue("@latschool", ed.Lat);
+        cmd.Parameters.AddWithValue("@lngschool", ed.Lng);
 
         return cmd;
     }

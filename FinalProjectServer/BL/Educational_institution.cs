@@ -13,6 +13,8 @@
         private string anotherContact;
         private string contactPhone;
         private string name;
+        double lat;
+        double lng;
 
         public EducationalInstitution(string institutionId, string street, int houseNumber, string city, string principal, string principalCellphone, string secretariatPhone, string secretariatMail, string anotherContact, string contactPhone)
         {
@@ -27,6 +29,8 @@
             AnotherContact = anotherContact;
             ContactPhone = contactPhone;
             Name = name;
+            Lat = lat;
+            Lng = lng;
         }
 
         public EducationalInstitution() { }
@@ -42,6 +46,10 @@
         public string AnotherContact { get => anotherContact; set => anotherContact = value; }
         public string ContactPhone { get => contactPhone; set => contactPhone = value; }
         public string Name { get => name; set => name = value; }
+        public double Lat { get => lat; set => lat = value; }
+        public double Lng { get => lng; set => lng = value; }
+
+
 
         public int Insert()
         {
