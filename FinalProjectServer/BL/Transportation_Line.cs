@@ -66,6 +66,19 @@ namespace final_proj.BL
             return dbs.UpdateTransportationLine(this);
         }
 
+        public object Read(int linecode)
+        {
+            DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
+            List<string> stuid = new List<string>();
+            stuid= dbs.getstuinline(linecode);
+
+            TransportationLine mytl = new TransportationLine();
+            mytl=dbs.gettransportaiondetail(linecode);
+            var studeentsofline = new { transportaionline = mytl, studentid = stuid };
+            return studeentsofline;
+
+
+        }
 
 
         public static async Task<List<Point>> CreateOptimalRoute(List<Point> waypoints)
@@ -117,11 +130,11 @@ namespace final_proj.BL
 
         }
 
-        public Task InsertStudentsAndGetOptimalRoute(string ids, int linecode)
+        public Task InsertStudentsAndGetOptimalRoute(string students, int linecode)
         {
             DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
             //add all students to line
-            int numaffected = dbs.InsertStudentsToLine(ids, linecode);
+            int numaffected = dbs.InsertStudentsToLine(students, linecode);
 
             //get all adresses of students in line
             List<Point> waypoints = dbs.GetAdressfromParent(linecode);

@@ -10,13 +10,13 @@ namespace final_proj.Controllers
     [ApiController]
     public class Transportation_LineController : ControllerBase
     {
-        //[HttpGet]
-        ////this function gets line code from the client and return with Ad Hoc the Latitude and Longitude of all the stations.
-        //public object getlocat(int linecod)
-        //{
-        //    TransportationLine tr = new TransportationLine();
-        //    return tr.GetLinePoints(linecod);
-        //}
+        [HttpGet]
+        //this function gets line code from the client and return with Ad Hoc the Latitude and Longitude of all the stations.
+        public object getlocat(int linecod)
+        {
+            TransportationLine tr = new TransportationLine();
+            return tr.Read(linecod);
+        }
 
 
         [HttpPost]
@@ -66,9 +66,11 @@ namespace final_proj.Controllers
         {
             try
             {
+
+
                 string ids = "212042422,314649344,205050555";
                 int linecode = 16;
-
+                
 
                 TransportationLine tr = new TransportationLine();
                 Task optimalRoute= tr.InsertStudentsAndGetOptimalRoute(ids, linecode);
