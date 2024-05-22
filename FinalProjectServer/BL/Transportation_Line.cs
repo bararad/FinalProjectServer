@@ -130,7 +130,7 @@ namespace final_proj.BL
                 {
                     optimizedPoints.Add(waypoints[location]);
                 }
-
+                
                 return optimizedPoints;
 
                 //add to the DB

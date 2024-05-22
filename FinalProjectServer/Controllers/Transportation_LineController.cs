@@ -84,13 +84,11 @@ namespace final_proj.Controllers
             try
             {
 
-
-                string ids = "212042422,314649344,205050555";
-                int linecode = 16;
-                
+                string students = data.GetProperty("students").GetString();
+                int linecode = Convert.ToInt32(data.GetProperty("linecode").GetInt32());
 
                 TransportationLine tr = new TransportationLine();
-                Task<List<Point>> optimalRoute = tr.InsertStudentsAndGetOptimalRoute(ids, linecode);
+                Task<List<Point>> optimalRoute = tr.InsertStudentsAndGetOptimalRoute(students, linecode);
 
 
 
