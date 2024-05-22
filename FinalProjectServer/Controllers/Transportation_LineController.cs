@@ -22,16 +22,16 @@ namespace final_proj.Controllers
 
         [HttpGet]
         public IActionResult Get()
-        {         
-                try
-                {
-                    IEnumerable<TransportationLine> lines = TransportationLine.Read();
-                    return Ok(lines);
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, ex.Message);
-                }     
+        {
+            try
+            {
+                IEnumerable<TransportationLine> lines = TransportationLine.Read();
+                return Ok(lines);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
 
         }
 
@@ -88,7 +88,7 @@ namespace final_proj.Controllers
                 int linecode = Convert.ToInt32(data.GetProperty("linecode").GetInt32());
 
                 TransportationLine tr = new TransportationLine();
-                Task<List<Point>> optimalRoute = tr.InsertStudentsAndGetOptimalRoute(students, linecode);
+                tr.InsertStudentsAndGetOptimalRoute(students, linecode);
 
 
 

@@ -269,11 +269,11 @@ public class DBservicesTransportation_Line : GeneralDBservices
     }
 
     //in this function there is a use of AdHoc objects to store the location points of the students in the line 
-    public List<Point> GetAdressfromParent(int linecode)
+    public List<StudentPoint> GetAdressfromParent(int linecode)
     {
         SqlConnection con;
         SqlCommand cmd;
-        List<Point> waypoints = new List<Point>();
+        List<StudentPoint> waypoints = new List<StudentPoint>();
 
         try
         {
@@ -290,9 +290,10 @@ public class DBservicesTransportation_Line : GeneralDBservices
 
             while (dataReader.Read())
             {
-                Point p = new Point();
+                StudentPoint p = new StudentPoint();
                 p.latitude = Convert.ToDouble(dataReader["lat"]);
                 p.longitude = Convert.ToDouble(dataReader["lng"]);
+                p.id = dataReader["id"].ToString();
 
                 waypoints.Add(p);
             }

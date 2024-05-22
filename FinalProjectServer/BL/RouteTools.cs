@@ -8,6 +8,14 @@ public class Point
 
     public double latitude { get => _latitude; set => _latitude = value; }
     public double longitude { get => _longitude; set => _longitude = value; }
+
+}
+
+public class StudentPoint : Point {
+    private string _id;
+
+    public string id { get => _id; set => _id = value; }
+
 }
 
 public class Waypoint

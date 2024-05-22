@@ -94,10 +94,19 @@ namespace final_proj.BL
         }
 
 
-        public static async Task<List<Point>> CreateOptimalRoute(List<Point> waypoints)
+        public async Task<List<StudentPoint>> CreateOptimalRoute(List<StudentPoint> studentPoints, int linecode)
         {
             try
             {
+
+                List<Point> waypoints = new List<Point>();
+                foreach (StudentPoint st in studentPoints)
+                {
+                    Point p = new Point();
+                    p.latitude = st.latitude;
+                    p.longitude = st.longitude;
+                    waypoints.Add(p);
+                }
 
                 string url = "https://api.tomtom.com/routing/waypointoptimization/1?key=pQ2wOkN7gW5AktUC12urg6Z2M8lkiIFH";
 
@@ -125,13 +134,23 @@ namespace final_proj.BL
                 JObject res = JObject.Parse(responseBody);
                 List<int> order = JsonConvert.DeserializeObject<List<int>>(res["optimizedOrder"].ToString());
 
-                List<Point> optimizedPoints = new List<Point>();
+                List<StudentPoint> optimizedPoints = new List<StudentPoint>();
                 foreach (int location in order)
                 {
-                    optimizedPoints.Add(waypoints[location]);
+                    optimizedPoints.Add(studentPoints[location]);
                 }
-                
+
+                //send to db for storing the order
+                string saveToDB = "";
+                for (int i = 0; i < optimizedPoints.Count; i++) {
+                    saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
+                }
+
+                //1) delete the last pipe | from saveToDB
+                //2) call the proc SPproj_SaveStudentsPositionInRoute and send the saveToDB
+
                 return optimizedPoints;
+                //optimizedPoints the right order of points
 
                 //add to the DB
 
@@ -144,15 +163,15 @@ namespace final_proj.BL
 
         }
 
-        public Task<List<Point>> InsertStudentsAndGetOptimalRoute(string students, int linecode)
+        public void InsertStudentsAndGetOptimalRoute(string students, int linecode)
         {
             DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
             //add all students to line
             int numaffected = dbs.InsertStudentsToLine(students, linecode);
 
             //get all adresses of students in line
-            List<Point> waypoints = dbs.GetAdressfromParent(linecode);
-            return CreateOptimalRoute(waypoints);
+            List<StudentPoint> waypoints = dbs.GetAdressfromParent(linecode);
+            Task.Run(()=> CreateOptimalRoute(waypoints, linecode));
 
         }
 
