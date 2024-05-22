@@ -10,12 +10,29 @@ namespace final_proj.Controllers
     [ApiController]
     public class Transportation_LineController : ControllerBase
     {
-        [HttpGet]
+
+        [HttpGet("specificLineData")]
         //this function gets line code from the client and return with Ad Hoc the Latitude and Longitude of all the stations.
         public object getlocat(int linecod)
         {
             TransportationLine tr = new TransportationLine();
-            return tr.Read(linecod);
+            return tr.ReadByLineCode(linecod);
+        }
+
+
+        [HttpGet]
+        public IActionResult Get()
+        {         
+                try
+                {
+                    IEnumerable<TransportationLine> lines = TransportationLine.Read();
+                    return Ok(lines);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }     
+
         }
 
 

@@ -101,17 +101,68 @@ public class DBservicesTransportation_Line : GeneralDBservices
         }
     }
 
-
-
-
-
-
-
-    public List<string> getstuinline(int linecode)
+    public List<TransportationLine> GetLines()
     {
         SqlConnection con;
         SqlCommand cmd;
-        List<string> stuid = new List<string>();
+        List<TransportationLine> linesList = new List<TransportationLine>();
+
+        try
+        {
+            con = connect("myProjDB");
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        cmd = CreateCommandWithSPWithoutParameters("SPproj_GetLines", con);
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                TransportationLine tl = new TransportationLine();
+                tl.Line_code = Convert.ToInt32(dataReader["line_code"]);
+                tl.Definition_date = Convert.ToDateTime(dataReader["date_of_creation"]);
+                tl.Line_car = dataReader["car_type"].ToString();
+                tl.Number_of_seats = Convert.ToInt32(dataReader["number_of_seats"]);
+                tl.School_of_line = dataReader["school_ofline"].ToString();
+                tl.Station_definition = dataReader["station_defination"].ToString();
+                tl.Escort_incharge = dataReader["responsible_escort"].ToString();
+                tl.Transportation_company = dataReader["transportation_company"].ToString();
+                tl.Time_of_line = dataReader["time_of_line"].ToString();
+                tl.Comments = dataReader["comments"].ToString();
+
+                linesList.Add(tl);
+            }
+
+            return linesList;
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+
+    }
+
+
+
+
+
+    public List<string> GetStudentsInLine(int linecode)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        List<string> studentsIds = new List<string>();
 
         try
         {
@@ -128,15 +179,14 @@ public class DBservicesTransportation_Line : GeneralDBservices
 
             while (dataReader.Read())
             {
-                string student;
-                student = dataReader["student_id"].ToString();
+                string student= dataReader["student_id"].ToString();
 
 
-                stuid.Add(student);
+                studentsIds.Add(student);
             }
             //create a List that contains the locations array of the students in the line 
 
-            return stuid;
+            return studentsIds;
         }
         catch (Exception ex)
         {
@@ -160,7 +210,7 @@ public class DBservicesTransportation_Line : GeneralDBservices
     {
         SqlConnection con;
         SqlCommand cmd;
-   
+
 
         try
         {
@@ -179,7 +229,7 @@ public class DBservicesTransportation_Line : GeneralDBservices
             while (dataReader.Read())
             {
 
-                 TransportationLine transportationLine = new TransportationLine();
+                TransportationLine transportationLine = new TransportationLine();
                 {
                     transportationLine.Line_code = int.Parse(dataReader["line_code"].ToString());
                     transportationLine.Definition_date = DateTime.Parse(dataReader["date_of_creation"].ToString());
@@ -189,7 +239,7 @@ public class DBservicesTransportation_Line : GeneralDBservices
                     transportationLine.Station_definition = dataReader["station_defination"].ToString();
                     transportationLine.Escort_incharge = dataReader["responsible_escort"].ToString();
                     transportationLine.Transportation_company = dataReader["transportation_company"].ToString();
-                    transportationLine.Time_of_line = DateTime.Parse(dataReader["time_of_line"].ToString());
+                    transportationLine.Time_of_line = dataReader["time_of_line"].ToString();
                     transportationLine.Comments = dataReader["comments"].ToString();
                 }
 
@@ -241,9 +291,9 @@ public class DBservicesTransportation_Line : GeneralDBservices
             while (dataReader.Read())
             {
                 Point p = new Point();
-                p.latitude=Convert.ToDouble(dataReader["lat"]);
+                p.latitude = Convert.ToDouble(dataReader["lat"]);
                 p.longitude = Convert.ToDouble(dataReader["lng"]);
-                
+
                 waypoints.Add(p);
             }
             //create a List that contains the locations array of the students in the line 

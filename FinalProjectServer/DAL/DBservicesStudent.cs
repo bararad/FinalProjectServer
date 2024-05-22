@@ -16,6 +16,11 @@ public class DBservicesStudent: GeneralDBservices
         
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // This method Inserts a Student to the Student table 
+    //--------------------------------------------------------------------------------------------------
+
+
     public int InsertStudent(Student student)
     {
         SqlConnection con;

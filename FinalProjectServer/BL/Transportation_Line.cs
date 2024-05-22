@@ -20,11 +20,15 @@ namespace final_proj.BL
         private string station_definition;
         private string escort_incharge;
         private string transportation_company;
-        private DateTime time_of_line;
+        private string time_of_line;
         private string comments;
-        private List<Student> students; //same as parents
+        private List<string> studentsId;
 
-        public TransportationLine(int line_code, DateTime definition_date, string line_car, int number_of_seats, string school_of_line, string station_definition, string escort_incharge, string transportation_company, DateTime time_of_line, string comments)
+        public TransportationLine()
+        {
+        }
+
+        public TransportationLine(int line_code, DateTime definition_date, string line_car, int number_of_seats, string school_of_line, string station_definition, string escort_incharge, string transportation_company, string time_of_line, string comments)
         {
             this.line_code = line_code;
             this.definition_date = definition_date;
@@ -36,11 +40,9 @@ namespace final_proj.BL
             this.transportation_company = transportation_company;
             this.time_of_line = time_of_line;
             this.comments = comments;
+            StudentsId = new List<string>();
         }
 
-        public TransportationLine()
-        {
-        }
 
         public int Line_code { get => line_code; set => line_code = value; }
         public DateTime Definition_date { get => definition_date; set => definition_date = value; }
@@ -50,9 +52,9 @@ namespace final_proj.BL
         public string Station_definition { get => station_definition; set => station_definition = value; }
         public string Escort_incharge { get => escort_incharge; set => escort_incharge = value; }
         public string Transportation_company { get => transportation_company; set => transportation_company = value; }
-        public DateTime Time_of_line { get => time_of_line; set => time_of_line = value; }
+        public string Time_of_line { get => time_of_line; set => time_of_line = value; }
         public string Comments { get => comments; set => comments = value; }
-
+        public List<string> StudentsId { get => studentsId; set => studentsId = value; }
 
         public int Insert()
         {
@@ -66,18 +68,29 @@ namespace final_proj.BL
             return dbs.UpdateTransportationLine(this);
         }
 
-        public object Read(int linecode)
+        public static List<TransportationLine> Read()
+        {
+            DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
+            List<TransportationLine> lineList = dbs.GetLines();
+
+            foreach (TransportationLine line in lineList)
+            {
+                line.StudentsId = dbs.GetStudentsInLine(line.Line_code);
+            }
+
+            return lineList;
+        }
+
+        public object ReadByLineCode(int linecode)
         {
             DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
             List<string> stuid = new List<string>();
-            stuid= dbs.getstuinline(linecode);
+            stuid = dbs.GetStudentsInLine(linecode);
 
             TransportationLine mytl = new TransportationLine();
-            mytl=dbs.gettransportaiondetail(linecode);
+            mytl = dbs.gettransportaiondetail(linecode);
             var studeentsofline = new { transportaionline = mytl, studentid = stuid };
             return studeentsofline;
-
-
         }
 
 
@@ -113,7 +126,8 @@ namespace final_proj.BL
                 List<int> order = JsonConvert.DeserializeObject<List<int>>(res["optimizedOrder"].ToString());
 
                 List<Point> optimizedPoints = new List<Point>();
-                foreach (int location in order) {
+                foreach (int location in order)
+                {
                     optimizedPoints.Add(waypoints[location]);
                 }
 
