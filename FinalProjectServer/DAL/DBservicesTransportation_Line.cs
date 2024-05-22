@@ -37,7 +37,7 @@ public class DBservicesTransportation_Line : GeneralDBservices
             throw (ex);
         }
 
-        cmd = CreateTransportation_LineInsertCommandWithStoredProcedure("SPproj_InsertTransportationLine", con, tl);        // create the command
+        cmd = CreateTransportation_LineInsertCommandWithStoredProcedure("SPproj_InsertTransportationLine", con, tl);// create the command
 
         try
         {
