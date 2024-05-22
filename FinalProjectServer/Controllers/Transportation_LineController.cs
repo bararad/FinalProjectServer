@@ -73,7 +73,7 @@ namespace final_proj.Controllers
                 
 
                 TransportationLine tr = new TransportationLine();
-                Task optimalRoute= tr.InsertStudentsAndGetOptimalRoute(ids, linecode);
+                Task<List<Point>> optimalRoute = tr.InsertStudentsAndGetOptimalRoute(ids, linecode);
 
 
 

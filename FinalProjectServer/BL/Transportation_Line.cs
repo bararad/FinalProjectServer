@@ -130,7 +130,7 @@ namespace final_proj.BL
 
         }
 
-        public Task InsertStudentsAndGetOptimalRoute(string students, int linecode)
+        public Task<List<Point>> InsertStudentsAndGetOptimalRoute(string students, int linecode)
         {
             DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
             //add all students to line

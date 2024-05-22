@@ -156,10 +156,6 @@ public class DBservicesTransportation_Line : GeneralDBservices
     }
 
 
-
-
-
-
     public TransportationLine gettransportaiondetail(int linecode)
     {
         SqlConnection con;
@@ -221,43 +217,6 @@ public class DBservicesTransportation_Line : GeneralDBservices
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     //in this function there is a use of AdHoc objects to store the location points of the students in the line 
     public List<Point> GetAdressfromParent(int linecode)
@@ -430,9 +389,6 @@ public class DBservicesTransportation_Line : GeneralDBservices
         return cmd;
 
     }
-
-
-
 
 
     private SqlCommand StudentsinLineInsertionCommandWithStoredProcedure(String spName, SqlConnection con, string ids, int linecode)
