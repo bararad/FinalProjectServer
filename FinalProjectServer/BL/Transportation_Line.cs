@@ -7,6 +7,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
+using System.Collections.Generic;
+using System;
 
 namespace final_proj.BL
 {
@@ -142,37 +144,51 @@ namespace final_proj.BL
 
                 //parse to JSON object to reach the exact field of the optimized route
                 JObject res = JObject.Parse(responseBody);
-                List<int> order = JsonConvert.DeserializeObject<List<int>>(res["optimizedOrder"].ToString());
 
-                List<StudentPoint> optimizedPoints = new List<StudentPoint>();
-                foreach (int location in order)
+                // Check if the "optimizedOrder" property exists
+                if (res.TryGetValue("optimizedOrder", out JToken optimizedOrderToken) && optimizedOrderToken != null)
                 {
-                    optimizedPoints.Add(studentPoints[location]);
-                }
+                    // Check if the "optimizedOrder" property has a length >= 1
+                    if (optimizedOrderToken.Count() > 1)
+                    {
+                        // Deserialize the "optimizedOrder" property
+                        List<int> order = JsonConvert.DeserializeObject<List<int>>(optimizedOrderToken.ToString());
 
-                //send to db for storing the order
-                string saveToDB = "";
-                for (int i = 0; i < optimizedPoints.Count; i++)
+                        List<StudentPoint> optimizedPoints = new List<StudentPoint>();
+                        foreach (int location in order)
+                        {
+                            optimizedPoints.Add(studentPoints[location]);
+                        }
+
+                        //send to db for storing the order
+                        string saveToDB = "";
+                        for (int i = 0; i < optimizedPoints.Count; i++)
+                        {
+                            saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
+                        }
+
+                        saveToDB = saveToDB.Remove(saveToDB.Length - 1);
+                        TransportationLine mytl = new TransportationLine();
+                        int result = mytl.SaveStudentsPositionInRoute(saveToDB);
+
+                        return result;
+                    }
+                    else
+                    {
+                        throw new Exception("The 'optimizedOrder' property has a length less than 2 in the JSON response.");
+                    }
+                }
+                else
                 {
-                    saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
+                    // Handle the case where "optimizedOrder" property is missing or null
+                    throw new Exception("The 'optimizedOrder' property is missing or null in the JSON response.");
                 }
-
-                saveToDB = saveToDB.Remove(saveToDB.Length - 1);
-                TransportationLine mytl = new TransportationLine();
-                int result = mytl.SaveStudentsPositionInRoute(saveToDB);
-
-
-
-                return result;
-                //optimizedPoints the right order of points
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                // Handle other exceptions
+                throw new Exception("Error processing the response: " + ex.Message, ex);
             }
-
         }
 
         public async Task<int> InsertStudentsAndGetOptimalRoute(string students, int linecode)

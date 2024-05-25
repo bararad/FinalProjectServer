@@ -118,7 +118,5 @@ namespace final_proj.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
-
     }
 }
