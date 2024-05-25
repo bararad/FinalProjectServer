@@ -243,7 +243,7 @@ public class DBservicesTransportation_Line : GeneralDBservices
 
     }
     ///
-    /////////////////////////////////////////////////////////////////////////////
+   //save specific object with the data of the line and the positions of all student
     public List<object> getRouteinfo(int linecode)
     {
         SqlConnection con;

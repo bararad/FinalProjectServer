@@ -23,7 +23,7 @@ namespace final_proj.Controllers
 
 
         [HttpGet("LineRouteInfo")]
-        //this function gets line code from the client and return with Ad Hoc the Latitude and Longitude of all the stations.
+        //this function gets line code from the client and return with Ad Hoc the Routinfo from data
         public List<object> Routeinfo(int linecod)
         {
             TransportationLine tr = new TransportationLine();

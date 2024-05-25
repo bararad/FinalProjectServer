@@ -106,11 +106,6 @@ namespace final_proj.BL
         }
 
 
-
-
-
-
-
         public async Task<List<StudentPoint>> CreateOptimalRoute(List<StudentPoint> studentPoints, int linecode)
         {
             try
@@ -194,7 +189,7 @@ namespace final_proj.BL
         }
 
 
-        //save the order of the students in the database
+        //save the order of the students in the database-position 
         public int SaveStudentsPositionInRoute(string save)
         {
             try
