@@ -61,6 +61,46 @@ public class DBservicesTransportation_Line : GeneralDBservices
 
     }
 
+    //this function gets string with- line code|order collection of the student|student id and with sp that saperate the strings this field saves on the studentinline table
+    public int saveindb(string studata)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = InsertrouteorderCommandWithStoredProcedure("SPproj_SaveStudentsPositionInRoute", con, studata);// create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
 
     public int InsertStudentsToLine(string ids, int linecode)
     {
@@ -156,8 +196,6 @@ public class DBservicesTransportation_Line : GeneralDBservices
 
 
 
-
-
     public List<string> GetStudentsInLine(int linecode)
     {
         SqlConnection con;
@@ -204,6 +242,78 @@ public class DBservicesTransportation_Line : GeneralDBservices
         }
 
     }
+    ///
+    /////////////////////////////////////////////////////////////////////////////
+    public List<object> getRouteinfo(int linecode)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        List<object> o = new List<object>();
+        try
+        {
+            con = connect("myProjDB");
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        cmd = getstudentlineCommandWithStoredProcedure("GetLineRouteInfo", con, linecode);
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read()) // Removed unnecessary semicolon
+            {
+                int Line_code = int.Parse(dataReader["line_code"].ToString());
+                int position = int.Parse(dataReader["position"].ToString());
+                string stuid = dataReader["student_id"].ToString(); // Changed to "student_id"
+                string stufullname = dataReader["stu_fullName"].ToString();
+                double latitude = Convert.ToDouble(dataReader["lat"]);
+                double longitude = Convert.ToDouble(dataReader["lng"]);
+                string city = dataReader["city"].ToString();
+                string street = dataReader["street"].ToString();
+                int housenum = int.Parse(dataReader["house_number"].ToString());
+
+                var routeInfo = new
+                {
+                    LineCode = Line_code,
+                    Position = position,
+                    StudentId = stuid,
+                    StudentFullName = stufullname,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    City = city,
+                    Street = street,
+                    HouseNumber = housenum
+                };
+                o.Add(routeInfo);
+            }
+
+            return o;
+
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+
+
+
+
+
 
 
     public TransportationLine gettransportaiondetail(int linecode)
@@ -358,6 +468,10 @@ public class DBservicesTransportation_Line : GeneralDBservices
 
     }
 
+
+
+
+
     private SqlCommand CreateTransportation_LineInsertCommandWithStoredProcedure(String spName, SqlConnection con, TransportationLine tl)
     {
 
@@ -385,6 +499,42 @@ public class DBservicesTransportation_Line : GeneralDBservices
         return cmd;
 
     }
+
+
+    private SqlCommand InsertrouteorderCommandWithStoredProcedure(String spName, SqlConnection con, string routedata)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@inputString", routedata);
+   
+        return cmd;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private SqlCommand getlocationparentCommandWithStoredProcedure(String spName, SqlConnection con, int linecode)
     {

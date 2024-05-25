@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
 
 namespace final_proj.BL
 {
@@ -94,6 +96,21 @@ namespace final_proj.BL
         }
 
 
+
+        public List<object> ReadRouteinfo(int linecode)
+        {
+            DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
+          return dbs.getRouteinfo(linecode);
+
+
+        }
+
+
+
+
+
+
+
         public async Task<List<StudentPoint>> CreateOptimalRoute(List<StudentPoint> studentPoints, int linecode)
         {
             try
@@ -146,13 +163,14 @@ namespace final_proj.BL
                     saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
                 }
 
-                //1) delete the last pipe | from saveToDB
-                //2) call the proc SPproj_SaveStudentsPositionInRoute and send the saveToDB
+                saveToDB = saveToDB.Remove(saveToDB.Length - 1);
+                TransportationLine mytl = new TransportationLine();
+                mytl.SaveStudentsPositionInRoute(saveToDB);
+             
+             
 
                 return optimizedPoints;
                 //optimizedPoints the right order of points
-
-                //add to the DB
 
             }
             catch (Exception)
@@ -176,6 +194,31 @@ namespace final_proj.BL
         }
 
 
+        //save the order of the students in the database
+        public int SaveStudentsPositionInRoute(string save)
+        {
+            try
+            {
+                DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
+                int numaffected = dbs.saveindb(save);
+                return numaffected;
+            }
+            catch (SqlException ex) when (ex.Number == 547)
+            {
+                // Log the error or handle it appropriately
+                throw new Exception("Foreign key constraint violation: transportation company or escort not found.", ex);
+            }
+            catch (SqlException ex)
+            {
+                // Log the error or handle it appropriately
+                throw new Exception("Database error: " + ex.Message, ex);
+            }
+            catch (Exception ex)
+            {
+                // Log the error or handle it appropriately
+                throw new Exception("Error saving to database: " + ex.Message, ex);
+            }
+        }
 
 
 
