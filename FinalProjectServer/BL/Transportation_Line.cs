@@ -100,13 +100,11 @@ namespace final_proj.BL
         public List<object> ReadRouteinfo(int linecode)
         {
             DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
-          return dbs.getRouteinfo(linecode);
-
-
+            return dbs.getRouteinfo(linecode);
         }
 
 
-        public async Task<List<StudentPoint>> CreateOptimalRoute(List<StudentPoint> studentPoints, int linecode)
+        public async Task<int> CreateOptimalRoute(List<StudentPoint> studentPoints, int linecode)
         {
             try
             {
@@ -154,17 +152,18 @@ namespace final_proj.BL
 
                 //send to db for storing the order
                 string saveToDB = "";
-                for (int i = 0; i < optimizedPoints.Count; i++) {
+                for (int i = 0; i < optimizedPoints.Count; i++)
+                {
                     saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
                 }
 
                 saveToDB = saveToDB.Remove(saveToDB.Length - 1);
                 TransportationLine mytl = new TransportationLine();
-                mytl.SaveStudentsPositionInRoute(saveToDB);
-             
-             
+                int result = mytl.SaveStudentsPositionInRoute(saveToDB);
 
-                return optimizedPoints;
+
+
+                return result;
                 //optimizedPoints the right order of points
 
             }
@@ -176,7 +175,7 @@ namespace final_proj.BL
 
         }
 
-        public void InsertStudentsAndGetOptimalRoute(string students, int linecode)
+        public async Task<int> InsertStudentsAndGetOptimalRoute(string students, int linecode)
         {
             DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
             //add all students to line
@@ -184,8 +183,8 @@ namespace final_proj.BL
 
             //get all adresses of students in line
             List<StudentPoint> waypoints = dbs.GetAdressfromParent(linecode);
-            Task.Run(()=> CreateOptimalRoute(waypoints, linecode));
-
+            int result = await CreateOptimalRoute(waypoints, linecode);
+            return result;
         }
 
 
@@ -214,14 +213,5 @@ namespace final_proj.BL
                 throw new Exception("Error saving to database: " + ex.Message, ex);
             }
         }
-
-
-
-
     }
-
-
-
-
-
 }

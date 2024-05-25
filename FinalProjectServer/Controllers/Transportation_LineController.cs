@@ -55,7 +55,7 @@ namespace final_proj.Controllers
             try
             {
                 var result = tl.Insert();
-                return Ok(1);
+                return Ok(result);
             }
             catch (SqlException ex) when (ex.Number == 547)
             {
@@ -74,8 +74,12 @@ namespace final_proj.Controllers
         {
             try
             {
-                var result = tl.Update();
-                return Ok(1);
+                int result = tl.Update();
+                if (result == 0)
+                {
+                    return BadRequest("This identifier does not exist in the database");
+                }
+                return Ok(result);
             }
             catch (SqlException ex) when (ex.Number == 547)
             {
@@ -92,21 +96,16 @@ namespace final_proj.Controllers
 
 
         [HttpPost("CreateRoute")]
-        public ActionResult<int> AddStudentsAndCreateRoute([FromBody] JsonElement data)
+        public async Task<ActionResult<int>> AddStudentsAndCreateRoute([FromBody] JsonElement data)
         {
             try
             {
-
                 string students = data.GetProperty("students").GetString();
                 int linecode = Convert.ToInt32(data.GetProperty("linecode").GetInt32());
 
                 TransportationLine tr = new TransportationLine();
-                tr.InsertStudentsAndGetOptimalRoute(students, linecode);
-
-
-
-
-                return Ok(1);
+                int result = await tr.InsertStudentsAndGetOptimalRoute(students, linecode);
+                return Ok(result);
             }
             catch (SqlException ex) when (ex.Number == 547)
             {
