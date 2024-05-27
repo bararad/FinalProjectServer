@@ -74,38 +74,82 @@ namespace final_proj.BL
 
         public static List<TransportationLine> Read()
         {
-            DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
-            List<TransportationLine> lineList = dbs.GetLines();
-
-            foreach (TransportationLine line in lineList)
+            try
             {
-                line.StudentsId = dbs.GetStudentsInLine(line.Line_code);
-            }
+                DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
+                List<TransportationLine> lineList = dbs.GetLines();
 
-            return lineList;
+                foreach (TransportationLine line in lineList)
+                {
+                    line.StudentsId = dbs.GetStudentsInLine(line.Line_code);
+                }
+
+                return lineList;
+            }
+            catch (SqlException ex)
+            {
+                // Handle SQL exceptions
+                throw new Exception("A database error occurred while retrieving the transportation lines or student IDs.", ex);
+            }
+            catch (Exception ex)
+            {
+                // Handle all other exceptions
+                throw new Exception("An error occurred while retrieving the transportation lines or student IDs.", ex);
+            }
         }
 
+        //this function gets Linecode and return all details of this specific transportation line and List of this students in this transportation Line 
         public object ReadByLineCode(int linecode)
         {
-            DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
-            List<string> stuid = new List<string>();
-            stuid = dbs.GetStudentsInLine(linecode);
+            try
+            {
+                DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
+                List<string> stuid = new List<string>();
+                stuid = dbs.GetStudentsInLine(linecode);
 
-            TransportationLine mytl = new TransportationLine();
-            mytl = dbs.gettransportaiondetail(linecode);
-            var studeentsofline = new { transportaionline = mytl, studentid = stuid };
-            return studeentsofline;
+                TransportationLine mytl = new TransportationLine();
+                mytl = dbs.gettransportaiondetail(linecode);
+
+                var studeentsofline = new { transportaionline = mytl, studentid = stuid };
+                return studeentsofline;
+            }
+            catch (SqlException ex)
+            {
+                // Handle SQL exceptions
+                throw new Exception("A database error occurred while retrieving the transportation line details or student IDs.", ex);
+            }
+            catch (Exception ex)
+            {
+                // Handle all other exceptions
+                throw new Exception("An error occurred while retrieving the transportation line details or student IDs.", ex);
+            }
         }
 
 
 
+        //this function gets Linecode and return all students stations of this Linecode 
         public List<object> ReadRouteinfo(int linecode)
         {
-            DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
-            return dbs.getRouteinfo(linecode);
+            try
+            {
+                DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
+                return dbs.getRouteinfo(linecode);
+            }
+            catch (SqlException ex)
+            {
+                // Handle SQL exceptions (e.g., connection issues, query syntax errors)
+                throw new Exception("A database error occurred while retrieving route information.", ex);
+            }
+            catch (Exception ex)
+            {
+                // Handle all other exceptions
+                throw new Exception("An error occurred while retrieving route information.", ex);
+            }
         }
 
 
+
+        //this function return the order of station with API to TOMTOM -the function send to TOMTOM the latitude and longitude of all student , and get the order of the stations 
         public async Task<int> CreateOptimalRoute(List<StudentPoint> studentPoints, int linecode)
         {
             try
