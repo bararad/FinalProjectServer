@@ -243,6 +243,12 @@ namespace final_proj.BL
 
             //get all adresses of students in line
             List<StudentPoint> waypoints = dbs.GetAdressfromParent(linecode);
+            //לפני שליחה ליצירת מסלול אופטימלי\
+            //ליצור פונקציה שמקבלת קוד קו ומחזירה אורך רוחב של בצפר+הגדרת תחנה: מוצא/יעד
+            //לשלוח את האובייקט הזה-schoolInfo  שמכיל 3 שדות ל
+            //CreateOptimalRoute
+            //וכן לקבל אתזה בפונקציה עצמה
+            //ככה: int result = await CreateOptimalRoute(waypoints, linecode, schoolInfo)
             int result = await CreateOptimalRoute(waypoints, linecode);
             return result;
         }
