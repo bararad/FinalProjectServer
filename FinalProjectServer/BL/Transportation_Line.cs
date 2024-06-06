@@ -150,7 +150,7 @@ namespace final_proj.BL
 
 
         //this function return the order of station with API to TOMTOM -the function send to TOMTOM the latitude and longitude of all student , and get the order of the stations 
-        public async Task<int> CreateOptimalRoute(List<StudentPoint> studentPoints, int linecode)
+        public async Task<int> CreateOptimalRoute(List<StudentPoint> studentPoints, int linecode,object school)
         {
             try
             {
@@ -243,13 +243,18 @@ namespace final_proj.BL
 
             //get all adresses of students in line
             List<StudentPoint> waypoints = dbs.GetAdressfromParent(linecode);
+
             //לפני שליחה ליצירת מסלול אופטימלי\
             //ליצור פונקציה שמקבלת קוד קו ומחזירה אורך רוחב של בצפר+הגדרת תחנה: מוצא/יעד
             //לשלוח את האובייקט הזה-schoolInfo  שמכיל 3 שדות ל
             //CreateOptimalRoute
             //וכן לקבל אתזה בפונקציה עצמה
             //ככה: int result = await CreateOptimalRoute(waypoints, linecode, schoolInfo)
-            int result = await CreateOptimalRoute(waypoints, linecode);
+            object school = getschool(linecode);
+
+
+
+            int result = await CreateOptimalRoute(waypoints, linecode,school);
             return result;
         }
 
@@ -279,5 +284,27 @@ namespace final_proj.BL
                 throw new Exception("Error saving to database: " + ex.Message, ex);
             }
         }
+
+
+
+        public object getschool(int linecode)
+        {
+            DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
+            object school = dbs.getschoolinfo(linecode);
+            return school;
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
     }
 }

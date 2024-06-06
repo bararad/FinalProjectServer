@@ -195,6 +195,68 @@ public class DBservicesTransportation_Line : GeneralDBservices
     }
 
 
+    public object getschoolinfo(int linecode)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        object o = new object();
+
+        try
+        {
+            con = connect("myProjDB");
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        cmd = getschoolinfoCommandWithStoredProcedure("SPproj_Getschoolinfo", con, linecode);
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            if (dataReader.Read())
+            {
+                double latitude = Convert.ToDouble(dataReader["latschool"]);
+                double longitude = Convert.ToDouble(dataReader["lngschool"]);
+                string destination = dataReader["station_defination"].ToString();
+
+                o = new
+                {
+                    lat = latitude,
+                    lng = longitude,
+                    dest = destination
+                };
+                
+            }
+            return o;
+        }
+    
+
+
+
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+
+
+
+
+
+
 
     public List<string> GetStudentsInLine(int linecode)
     {
@@ -573,7 +635,35 @@ public class DBservicesTransportation_Line : GeneralDBservices
 
     }
 
-    private SqlCommand gettranpolineCommandWithStoredProcedure(String spName, SqlConnection con, int linecode)
+
+
+private SqlCommand getschoolinfoCommandWithStoredProcedure(String spName, SqlConnection con, int linecode)
+{
+
+    SqlCommand cmd = new SqlCommand(); // create the command object
+
+    cmd.Connection = con;              // assign the connection to the command object
+
+    cmd.CommandText = spName;      // can be Select, Insert, Update, Delete 
+
+    cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+    cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+    cmd.Parameters.AddWithValue("@line_code", linecode);
+    return cmd;
+
+}
+
+
+
+
+
+
+
+
+
+private SqlCommand gettranpolineCommandWithStoredProcedure(String spName, SqlConnection con, int linecode)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
