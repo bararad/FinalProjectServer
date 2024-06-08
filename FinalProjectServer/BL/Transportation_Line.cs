@@ -150,12 +150,13 @@ namespace final_proj.BL
 
 
         //this function return the order of station with API to TOMTOM -the function send to TOMTOM the latitude and longitude of all student , and get the order of the stations 
-        public async Task<int> CreateOptimalRoute(List<StudentPoint> studentPoints, int linecode,object school)
+        public async Task<int> CreateOptimalRoute(List<StudentPoint> studentPoints, int linecode, School school)
         {
             try
             {
 
                 List<Point> waypoints = new List<Point>();
+                // Add student points to waypoints
                 foreach (StudentPoint st in studentPoints)
                 {
                     Point p = new Point();
@@ -164,10 +165,11 @@ namespace final_proj.BL
                     waypoints.Add(p);
                 }
 
+                // Create the URL for TomTom API
                 string url = "https://api.tomtom.com/routing/waypointoptimization/1?key=pQ2wOkN7gW5AktUC12urg6Z2M8lkiIFH";
 
+                // Create the waypoints to send in JSON format
                 JArray waypointsToSend = new JArray();
-
                 foreach (Point point in waypoints)
                 {
                     //defines a JSON object
@@ -177,11 +179,66 @@ namespace final_proj.BL
                     waypointsToSend.Add(o);
                 }
 
+                ///////////////הוספת מוצא או יעד///////////////////////////////
 
+                // Parse the school object
+                //        Point schoolPoint = new Point
+                //        {
+                //            latitude = school.lat,
+                //            longitude = school.lng
+                //        };
+                //        JObject schoolJsonObject = new JObject
+                //{
+                //    { "point", JToken.FromObject(schoolPoint) }
+                //};
+
+                //        int originIndex = -1;
+                //        int destinationIndex = -1;
+
+                //        // Add school point as origin or destination
+                //        if (school.dest == "מוצא")
+                //        {
+                //            waypointsToSend.Insert(0, schoolJsonObject); // Add as origin (first point)
+                //            originIndex = 0;
+                //        }
+                //        else if (school.dest == "יעד")
+                //        {
+                //            waypointsToSend.Add(schoolJsonObject); // Add as destination (last point)
+                //            destinationIndex = waypointsToSend.Count - 1;
+                //        }
+
+                //        // Create the options object with waypoint constraints
+                //        JObject options = new JObject();
+                //        JObject waypointConstraints = new JObject();
+
+                //        if (originIndex != -1)
+                //        {
+                //            waypointConstraints.Add("originIndex", originIndex);
+                //        }
+
+                //        if (destinationIndex != -1)
+                //        {
+                //            waypointConstraints.Add("destinationIndex", destinationIndex);
+                //        }
+
+                //        options.Add("waypointConstraints", waypointConstraints);
+
+                //        // Create the final JSON object
+                //        JObject obj = new JObject
+                //{
+                //    { "waypoints", waypointsToSend },
+                //    { "options", options }
+                //};
+
+
+                //////////////////////////////////////////////
+
+                //מה שהיה לפני כן
                 JObject obj = new JObject();
                 obj["waypoints"] = waypointsToSend;
+                //אפשר למחוק אחכ
 
-
+                // Send the request to TomTom API
                 HttpClient client = new HttpClient();
                 var response = await client.PostAsync(url, new StringContent(obj.ToString().Replace("{{", "{").Replace("}}", "}"), Encoding.UTF8, "application/json"));
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -245,11 +302,9 @@ namespace final_proj.BL
             List<StudentPoint> waypoints = dbs.GetAdressfromParent(linecode);
 
             //get school line info
-            object school = getschool(linecode);
+            School school = getschool(linecode);
 
-
-
-            int result = await CreateOptimalRoute(waypoints, linecode,school);
+            int result = await CreateOptimalRoute(waypoints, linecode, school);
             return result;
         }
 
@@ -282,24 +337,11 @@ namespace final_proj.BL
 
 
 
-        public object getschool(int linecode)
+        public School getschool(int linecode)
         {
             DBservicesTransportation_Line dbs = new DBservicesTransportation_Line();
-            object school = dbs.getschoolinfo(linecode);
+            School school = dbs.getschoolinfo(linecode);
             return school;
-
-
-
-
-
         }
-
-
-
-
-
-
-
-
     }
 }

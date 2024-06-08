@@ -41,3 +41,10 @@ public class Route
     public Options options { get => _options; set => _options = value; }
 }
 
+public class School
+{
+    public double lat { get; set; }
+    public double lng { get; set; }
+    public string dest { get; set; }
+}
+

@@ -195,11 +195,11 @@ public class DBservicesTransportation_Line : GeneralDBservices
     }
 
 
-    public object getschoolinfo(int linecode)
+    public School getschoolinfo(int linecode)
     {
         SqlConnection con;
         SqlCommand cmd;
-        object o = new object();
+        School sc = new School();
 
         try
         {
@@ -220,15 +220,12 @@ public class DBservicesTransportation_Line : GeneralDBservices
                 double longitude = Convert.ToDouble(dataReader["lngschool"]);
                 string destination = dataReader["station_defination"].ToString();
 
-                o = new
-                {
-                    lat = latitude,
-                    lng = longitude,
-                    dest = destination
-                };
-                
+                sc.lat = latitude;
+                sc.lng = longitude;
+                sc.dest = destination;
+
             }
-            return o;
+            return sc;
         }
     
 
