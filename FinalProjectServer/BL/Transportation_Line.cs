@@ -154,7 +154,7 @@ namespace final_proj.BL
         {
             try
             {
-
+                bool isSchoolStart = true;
                 List<Point> waypoints = new List<Point>();
                 // Add student points to waypoints
                 foreach (StudentPoint st in studentPoints)
@@ -183,60 +183,61 @@ namespace final_proj.BL
 
                 //Parse the school object
 
-                //       Point schoolPoint = new Point
-                //       {
-                //           latitude = school.lat,
-                //           longitude = school.lng
-                //       };
-                //JObject schoolJsonObject = new JObject
-                //{
-                //    { "point", JToken.FromObject(schoolPoint) }
-                //};
+                Point schoolPoint = new Point
+                {
+                    latitude = school.lat,
+                    longitude = school.lng
+                };
+                JObject schoolJsonObject = new JObject
+                {
+                    { "point", JToken.FromObject(schoolPoint) }
+                };
 
-                //int originIndex = -1;
-                //int destinationIndex = -1;
+                int originIndex = -1;
+                int destinationIndex = -1;
 
-                //// Add school point as origin or destination
-                //if (school.dest == "מוצא")
-                //{
-                //    waypointsToSend.Insert(0, schoolJsonObject); // Add as origin (first point)
-                //    originIndex = 0;
-                //}
-                //else if (school.dest == "יעד")
-                //{
-                //    waypointsToSend.Add(schoolJsonObject); // Add as destination (last point)
-                //    destinationIndex = waypointsToSend.Count - 1;
-                //}
+                // Add school point as origin or destination
+                if (school.dest == "מוצא")
+                {
+                    waypointsToSend.Insert(0, schoolJsonObject); // Add as origin (first point)
+                    originIndex = 0;
+                }
+                else if (school.dest == "יעד")
+                {
+                    waypointsToSend.Add(schoolJsonObject); // Add as destination (last point)
+                    destinationIndex = waypointsToSend.Count - 1;
+                    isSchoolStart = false;
+                }
 
-                //// Create the options object with waypoint constraints
-                //JObject options = new JObject();
-                //JObject waypointConstraints = new JObject();
+                // Create the options object with waypoint constraints
+                JObject options = new JObject();
+                JObject waypointConstraints = new JObject();
 
-                //if (originIndex != -1)
-                //{
-                //    waypointConstraints.Add("originIndex", originIndex);
-                //}
+                if (originIndex != -1)
+                {
+                    waypointConstraints.Add("originIndex", originIndex);
+                }
 
-                //if (destinationIndex != -1)
-                //{
-                //    waypointConstraints.Add("destinationIndex", destinationIndex);
-                //}
+                if (destinationIndex != -1)
+                {
+                    waypointConstraints.Add("destinationIndex", destinationIndex);
+                }
 
-                //options.Add("waypointConstraints", waypointConstraints);
+                options.Add("waypointConstraints", waypointConstraints);
 
-                //// Create the final JSON object
-                //JObject obj = new JObject
-                //{
-                //    { "waypoints", waypointsToSend },
-                //    { "options", options }
-                //};
+                // Create the final JSON object
+                JObject obj = new JObject
+                {
+                    { "waypoints", waypointsToSend },
+                    { "options", options }
+                };
 
 
                 //////////////////////////////////////////////
 
                 //מה שהיה לפני כן
-                JObject obj = new JObject();
-                obj["waypoints"] = waypointsToSend;
+                //JObject obj = new JObject();
+                //obj["waypoints"] = waypointsToSend;
                 //אפשר למחוק אחכ
 
                 // Send the request to TomTom API
@@ -263,11 +264,20 @@ namespace final_proj.BL
                         }
 
                         //send to db for storing the order
-                        //לעשות בדיקה אם זה מוצא או יעד ולדלג על רשומת הבצפר כדי שלא תשמר
+                        //לעשות בדיקה אם זה מוצא או יעד ולדלג על רשומת הבצפר כדי שלא תשמר - done!
                         string saveToDB = "";
-                        for (int i = 0; i < optimizedPoints.Count; i++)
+                        if (isSchoolStart)
                         {
-                            saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
+                            for (int i = 1; i < optimizedPoints.Count; i++)
+                            {
+                                saveToDB += $"{linecode},{i - 1},{optimizedPoints[i].id}|";
+                            }
+                        }
+                        else {
+                            for (int i = 0; i < optimizedPoints.Count-1; i++)
+                            {
+                                saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
+                            }
                         }
 
                         saveToDB = saveToDB.Remove(saveToDB.Length - 1);
