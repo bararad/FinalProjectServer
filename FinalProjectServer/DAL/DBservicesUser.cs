@@ -45,9 +45,10 @@ public class DBservicesUser: GeneralDBservices
             User u = new User();
             while (dataReader.Read())
             {
-                u.UserName = (dataReader["username_"]).ToString();
-                u.Password = (dataReader["password_"]).ToString();
+               // u.UserName = (dataReader["username_"]).ToString();
+                //u.Password = (dataReader["password_"]).ToString();
                 u.Role = Convert.ToInt32(dataReader["Role"]);
+                //if role = -1
             }
             return u;
         }
