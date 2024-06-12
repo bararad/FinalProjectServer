@@ -22,7 +22,7 @@ namespace final_proj.BL
         public int Role { get => role; set => role = value; }
 
         //Login
-        public User Login()
+        public List<object> Login()
         {
             DBservicesUser dbs = new DBservicesUser();
             return dbs.GetUserByDetails(this);

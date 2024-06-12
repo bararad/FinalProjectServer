@@ -9,9 +9,10 @@ namespace final_proj.BL
     public class UserController : ControllerBase
     {
         [HttpPost("Login")]
-        public User GetUserNameandPassword([FromBody] User user)
+        public List< Object> GetUserNameandPassword([FromBody] User user)
         {
-            User u = user.Login();
+            List<Object> u = new List<Object>(); 
+            u = user.Login();
             return u;
         }
     }

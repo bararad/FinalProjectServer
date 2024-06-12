@@ -20,7 +20,7 @@ public class DBservicesUser: GeneralDBservices
 
     //The users are created automaticly on SQL when using 'insertescort','insertparent'
 
-    public User GetUserByDetails(User user)
+    public List< object> GetUserByDetails(User user)
     {
 
         SqlConnection con;
@@ -42,15 +42,47 @@ public class DBservicesUser: GeneralDBservices
         try
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            User u = new User();
+            List<object> o = new List<object>();
+            object u = null;
+            //check who is the user and send all is data to the client
             while (dataReader.Read())
             {
-               // u.UserName = (dataReader["username_"]).ToString();
-                //u.Password = (dataReader["password_"]).ToString();
-                u.Role = Convert.ToInt32(dataReader["Role"]);
-                //if role = -1
-            }
-            return u;
+
+                int Role = Convert.ToInt32(dataReader["Role"]);
+                if (Role == 1)
+                {
+                    u = new { Role = Role };
+                }
+                else if (Role == 2)
+                {
+                    u = new
+                    {
+                        Role = Role,
+                        Esc_id = dataReader["escort_id"].ToString(),
+                        fullName = dataReader["full_name"].ToString(),
+                        Cellphone = dataReader["cellphone"].ToString(),
+                        InstitutionId = dataReader["institution_id"].ToString(),
+                        Nameschool = dataReader["institution_name"].ToString(),
+                        Principal = dataReader["principal"].ToString(),
+                        PrincipalCellphone = dataReader["principal_cellphone"].ToString(),
+                        SecretariatPhone = dataReader["secretariat_phone"].ToString(),
+                        ContactPhone = dataReader["contact_phone"].ToString(),
+                        AnotherContact = dataReader["another_contact"].ToString(),
+                        Lat = Convert.ToDouble(dataReader["latschool"]),
+                        Lng = Convert.ToDouble(dataReader["lngschool"]),
+                        Comments = dataReader["comments"].ToString(),
+                        Line_car = dataReader["car_type"].ToString(),
+                        Line_code = int.Parse(dataReader["line_code"].ToString())
+                    };
+                }
+                else
+                {
+                    u = new { Role = Role };
+                }
+                o.Add(u);
+                    //if role = -1
+                }
+            return o;
         }
         catch (Exception ex)
         {
