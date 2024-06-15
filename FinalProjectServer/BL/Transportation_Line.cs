@@ -179,10 +179,7 @@ namespace final_proj.BL
                     waypointsToSend.Add(o);
                 }
 
-                ///////////////הוספת מוצא או יעד///////////////////////////////
-
                 //Parse the school object
-
                 Point schoolPoint = new Point
                 {
                     latitude = school.lat,
@@ -257,6 +254,10 @@ namespace final_proj.BL
                         // Deserialize the "optimizedOrder" property
                         List<int> order = JsonConvert.DeserializeObject<List<int>>(optimizedOrderToken.ToString());
 
+
+
+
+
                         //new list with fit positions
                         List<StudentPoint> newStudentPoint;
                         if (isSchoolStart)
@@ -275,13 +276,13 @@ namespace final_proj.BL
 
                         List<StudentPoint> optimizedPoints = new List<StudentPoint>();
 
+                        //old
                         //foreach (int location in order)
                         //{
                         //    optimizedPoints.Add(newStudentPoint[location]);
                         //}
-
-
-                        
+                  
+                        //new chng Elior
                         if (isSchoolStart) //skip first point
                         {
                             for (int i = 1; i < order.Count; i++)
@@ -299,25 +300,25 @@ namespace final_proj.BL
 
                         //send to db for storing the order
                         string saveToDB = "";
-                        //for (int i = 0; i < optimizedPoints.Count; i++)
-                        //{
-                        //    saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
-                        //}
+                        for (int i = 0; i < optimizedPoints.Count; i++)
+                        {
+                            saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
+                        }
 
-                        if (isSchoolStart)
-                        {
-                            for (int i = 1; i < optimizedPoints.Count; i++)
-                            {
-                                saveToDB += $"{linecode},{i - 1},{optimizedPoints[i].id}|";
-                            }
-                        }
-                        else
-                        {
-                            for (int i = 0; i < optimizedPoints.Count; i++)
-                            {
-                                saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
-                            }
-                        }
+                        //if (isSchoolStart)
+                        //{
+                        //    for (int i = 0; i < optimizedPoints.Count; i++)
+                        //    {
+                        //        saveToDB += $"{linecode},{i - 1},{optimizedPoints[i].id}|";
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    for (int i = 0; i < optimizedPoints.Count; i++)
+                        //    {
+                        //        saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
+                        //    }
+                        //}
 
                         saveToDB = saveToDB.Remove(saveToDB.Length - 1);
                         TransportationLine mytl = new TransportationLine();
