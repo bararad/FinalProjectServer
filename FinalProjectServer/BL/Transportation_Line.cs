@@ -257,15 +257,53 @@ namespace final_proj.BL
                         // Deserialize the "optimizedOrder" property
                         List<int> order = JsonConvert.DeserializeObject<List<int>>(optimizedOrderToken.ToString());
 
-                        List<StudentPoint> optimizedPoints = new List<StudentPoint>();
-                        foreach (int location in order)
+                        //new list with fit positions
+                        List<StudentPoint> newStudentPoint;
+                        if (isSchoolStart)
                         {
-                            optimizedPoints.Add(studentPoints[location]);
+                            // Create a new list with null at the first position and then add all studentPoints
+                            newStudentPoint = new List<StudentPoint> { null };
+                            newStudentPoint.AddRange(studentPoints);
+                        }
+                        else
+                        {
+                            // Directly copy studentPoints to newStudentPoint
+                            newStudentPoint = new List<StudentPoint>(studentPoints);
+                        }
+
+
+
+                        List<StudentPoint> optimizedPoints = new List<StudentPoint>();
+
+                        //foreach (int location in order)
+                        //{
+                        //    optimizedPoints.Add(newStudentPoint[location]);
+                        //}
+
+
+                        
+                        if (isSchoolStart) //skip first point
+                        {
+                            for (int i = 1; i < order.Count; i++)
+                            {
+                                optimizedPoints.Add(newStudentPoint[order[i]]);
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < order.Count - 1; i++) //skip last point
+                            {
+                                optimizedPoints.Add(newStudentPoint[order[i]]);
+                            }
                         }
 
                         //send to db for storing the order
-                        //לעשות בדיקה אם זה מוצא או יעד ולדלג על רשומת הבצפר כדי שלא תשמר - done!
                         string saveToDB = "";
+                        //for (int i = 0; i < optimizedPoints.Count; i++)
+                        //{
+                        //    saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
+                        //}
+
                         if (isSchoolStart)
                         {
                             for (int i = 1; i < optimizedPoints.Count; i++)
@@ -273,8 +311,9 @@ namespace final_proj.BL
                                 saveToDB += $"{linecode},{i - 1},{optimizedPoints[i].id}|";
                             }
                         }
-                        else {
-                            for (int i = 0; i < optimizedPoints.Count-1; i++)
+                        else
+                        {
+                            for (int i = 0; i < optimizedPoints.Count; i++)
                             {
                                 saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
                             }
