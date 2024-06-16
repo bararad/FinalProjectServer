@@ -180,64 +180,63 @@ namespace final_proj.BL
                 }
 
                 //Parse the school object
-
                 //מפה
-                //Point schoolPoint = new Point
-                //{
-                //    latitude = school.lat,
-                //    longitude = school.lng
-                //};
-                //JObject schoolJsonObject = new JObject
-                //{
-                //    { "point", JToken.FromObject(schoolPoint) }
-                //};
+                Point schoolPoint = new Point
+                {
+                    latitude = school.lat,
+                    longitude = school.lng
+                };
+                JObject schoolJsonObject = new JObject
+                {
+                    { "point", JToken.FromObject(schoolPoint) }
+                };
 
-                //int originIndex = -1;
-                //int destinationIndex = -1;
+                int originIndex = -1;
+                int destinationIndex = -1;
 
-                //// Add school point as origin or destination
-                //if (school.dest == "מוצא")
-                //{
-                //    waypointsToSend.Insert(0, schoolJsonObject); // Add as origin (first point)
-                //    originIndex = 0;
-                //}
-                //else if (school.dest == "יעד")
-                //{
-                //    waypointsToSend.Add(schoolJsonObject); // Add as destination (last point)
-                //    destinationIndex = waypointsToSend.Count - 1;
-                //    isSchoolStart = false;
-                //}
+                // Add school point as origin or destination
+                if (school.dest == "מוצא")
+                {
+                    waypointsToSend.Insert(0, schoolJsonObject); // Add as origin (first point)
+                    originIndex = 0;
+                }
+                else if (school.dest == "יעד")
+                {
+                    waypointsToSend.Add(schoolJsonObject); // Add as destination (last point)
+                    destinationIndex = waypointsToSend.Count - 1;
+                    isSchoolStart = false;
+                }
 
-                //// Create the options object with waypoint constraints
-                //JObject options = new JObject();
-                //JObject waypointConstraints = new JObject();
+                // Create the options object with waypoint constraints
+                JObject options = new JObject();
+                JObject waypointConstraints = new JObject();
 
-                //if (originIndex != -1)
-                //{
-                //    waypointConstraints.Add("originIndex", originIndex);
-                //}
+                if (originIndex != -1)
+                {
+                    waypointConstraints.Add("originIndex", originIndex);
+                }
 
-                //if (destinationIndex != -1)
-                //{
-                //    waypointConstraints.Add("destinationIndex", destinationIndex);
-                //}
+                if (destinationIndex != -1)
+                {
+                    waypointConstraints.Add("destinationIndex", destinationIndex);
+                }
 
-                //options.Add("waypointConstraints", waypointConstraints);
+                options.Add("waypointConstraints", waypointConstraints);
 
-                //// Create the final JSON object
-                //JObject obj = new JObject
-                //{
-                //    { "waypoints", waypointsToSend },
-                //    { "options", options }
-                //};
+                // Create the final JSON object
+                JObject obj = new JObject
+                {
+                    { "waypoints", waypointsToSend },
+                    { "options", options }
+                };
                 //עד פה
 
 
                 //////////////////////////////////////////////
 
                 //מה שהיה לפני כן
-                JObject obj = new JObject();
-                obj["waypoints"] = waypointsToSend;
+                //JObject obj = new JObject();
+                //obj["waypoints"] = waypointsToSend;
                 //אפשר למחוק אחכ
 
                 // Send the request to TomTom API
