@@ -44,6 +44,7 @@ public class DBservicesUser: GeneralDBservices
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
             List<object> o = new List<object>();
             object u = null;
+            int checkrole = user.Role;
             //check who is the user and send all is data to the client
             while (dataReader.Read())
             {
@@ -82,6 +83,13 @@ public class DBservicesUser: GeneralDBservices
                 o.Add(u);
                     //if role = -1
                 }
+            if (o.Count == 0)
+            {
+                {
+                    u = new { Role = 2};
+                }
+                o.Add(u);
+            }
             return o;
         }
         catch (Exception ex)
