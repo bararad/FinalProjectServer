@@ -101,8 +101,12 @@ namespace final_proj.Controllers
             try
             {
                 string students = data.GetProperty("students").GetString();
-                //int linecode = Convert.ToInt32(data.GetProperty("linecode").GetString());
+
                 int linecode = Convert.ToInt32(data.GetProperty("linecode").GetInt32());
+                //int linecode = Convert.ToInt32(data.GetProperty("linecode").GetString());
+
+                //string students = "206931654,209044111";
+                //int linecode = 9;
 
                 TransportationLine tr = new TransportationLine();
                 int result = await tr.InsertStudentsAndGetOptimalRoute(students, linecode);
