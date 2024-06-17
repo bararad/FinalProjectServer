@@ -180,7 +180,6 @@ namespace final_proj.BL
                 }
 
                 //Parse the school object
-                //מפה
                 Point schoolPoint = new Point
                 {
                     latitude = school.lat,
@@ -214,10 +213,12 @@ namespace final_proj.BL
                 if (originIndex != -1)
                 {
                     waypointConstraints.Add("originIndex", originIndex);
+                    waypointConstraints.Add("destinationIndex", destinationIndex);
                 }
 
                 if (destinationIndex != -1)
                 {
+                    waypointConstraints.Add("originIndex", originIndex);
                     waypointConstraints.Add("destinationIndex", destinationIndex);
                 }
 
@@ -229,15 +230,7 @@ namespace final_proj.BL
                     { "waypoints", waypointsToSend },
                     { "options", options }
                 };
-                //עד פה
-
-
-                //////////////////////////////////////////////
-
-                //מה שהיה לפני כן
-                //JObject obj = new JObject();
-                //obj["waypoints"] = waypointsToSend;
-                //אפשר למחוק אחכ
+  
 
                 // Send the request to TomTom API
                 HttpClient client = new HttpClient();
@@ -256,10 +249,6 @@ namespace final_proj.BL
                         // Deserialize the "optimizedOrder" property
                         List<int> order = JsonConvert.DeserializeObject<List<int>>(optimizedOrderToken.ToString());
 
-
-
-
-
                         //new list with fit positions
                         List<StudentPoint> newStudentPoint;
                         if (isSchoolStart)
@@ -277,12 +266,6 @@ namespace final_proj.BL
 
 
                         List<StudentPoint> optimizedPoints = new List<StudentPoint>();
-
-                        //old
-                        //foreach (int location in order)
-                        //{
-                        //    optimizedPoints.Add(newStudentPoint[location]);
-                        //}
                   
                         //new chng Elior
                         if (isSchoolStart) //skip first point
@@ -306,21 +289,6 @@ namespace final_proj.BL
                         {
                             saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
                         }
-
-                        //if (isSchoolStart)
-                        //{
-                        //    for (int i = 0; i < optimizedPoints.Count; i++)
-                        //    {
-                        //        saveToDB += $"{linecode},{i - 1},{optimizedPoints[i].id}|";
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    for (int i = 0; i < optimizedPoints.Count; i++)
-                        //    {
-                        //        saveToDB += $"{linecode},{i},{optimizedPoints[i].id}|";
-                        //    }
-                        //}
 
                         saveToDB = saveToDB.Remove(saveToDB.Length - 1);
                         TransportationLine mytl = new TransportationLine();
