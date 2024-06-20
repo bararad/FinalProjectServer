@@ -12,17 +12,21 @@ namespace final_proj.Controllers
     {
         // GET: api/<TransportationLineHistoryController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get(int linecode)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                IEnumerable<TransportationLineHistory> companies = TransportationLineHistory.Read(linecode);
+                return Ok(companies);
+            }
+            catch (Exception ex)
+            {
+                // Return a StatusCode of 500 (Internal Server Error) 
+                return StatusCode(500, "An error occurred while fetching transportation companies: " + ex.Message);
+            }
         }
 
-        // GET api/<TransportationLineHistoryController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+       
 
         // POST api/<TransportationLineHistoryController>
         [HttpPost]

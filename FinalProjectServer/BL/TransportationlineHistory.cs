@@ -48,6 +48,13 @@ namespace final_proj.BL
             DBservicesTransportationLineHistory dbs = new DBservicesTransportationLineHistory();
             return dbs.InsertTransportationLineHistory(this);
         }
-    
+
+
+        public static List<TransportationLineHistory> Read(int linecode)
+        {
+            DBservicesTransportationLineHistory dbs = new DBservicesTransportationLineHistory();
+            return dbs.GetTransportationLineHistory(linecode);
+        }
+
     }
 }
