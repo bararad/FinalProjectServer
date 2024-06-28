@@ -76,6 +76,28 @@ public class DBservicesUser: GeneralDBservices
                         Line_code = int.Parse(dataReader["line_code"].ToString())
                     };
                 }
+                else if (Role == 3)
+                {
+                    u = new
+                    {
+                        Role = Role,
+                        student_id = dataReader["stu_id"].ToString(),
+                        fullNameparent = dataReader["fullname"].ToString(),
+                        fullNamestudent = dataReader["stu_fullName"].ToString(),
+                        Cellphone = dataReader["cellphone"].ToString(),
+                        Nameschool = dataReader["institution_name"].ToString(),
+                        Principal = dataReader["principal"].ToString(),
+                        PrincipalCellphone = dataReader["principal_cellphone"].ToString(),
+                        SecretariatPhone = dataReader["secretariat_phone"].ToString(),
+                        ContactPhone = dataReader["contact_phone"].ToString(),
+                        Lat = Convert.ToDouble(dataReader["latschool"]),
+                        Lng = Convert.ToDouble(dataReader["lngschool"]),
+                        Comments = dataReader["comments"].ToString(),
+                        Line_car = dataReader["car_type"].ToString(),
+                        Line_code = int.Parse(dataReader["line_code"].ToString())
+                    };
+
+                }
                 else
                 {
                     u = new { Role = Role };
